@@ -1,5 +1,5 @@
 <template>
-  <div class="home">
+  <div class="editable-tree-view">
     <editable-tree :source="treeSource" />
     <pre>{{ treeSource }}</pre>
   </div>
@@ -7,14 +7,14 @@
 
 <script lang="ts">
 import { Component, Vue } from 'vue-property-decorator'
-import EditableTree from '@/components/EditableTree.vue'
+import EditableTree from '@/components/editable-tree/EditableTree.vue'
 
 @Component({
   components: {
     EditableTree,
   },
 })
-export default class Home extends Vue {
+export default class EditableTreeView extends Vue {
   treeSource = {
     children: [
       {
@@ -56,7 +56,7 @@ export default class Home extends Vue {
 </script>
 
 <style lang="scss" scoped>
-.home {
+.editable-tree-view {
   display: flex;
   align-items: flex-start;
   overflow: hidden;
@@ -65,14 +65,14 @@ export default class Home extends Vue {
 
   .editable-tree {
     border: 1px solid #c0c0c0;
-    flex-basis: 50%;
+    flex-basis: 60%;
     margin-right: 1rem;
     padding: 0.25rem 0;
   }
 
   pre {
     border: 1px solid #c0c0c0;
-    flex-basis: 50%;
+    flex-basis: 40%;
     margin: 0;
     overflow: scroll;
     height: 100%;
