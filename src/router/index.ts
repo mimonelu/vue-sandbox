@@ -1,5 +1,6 @@
 import Vue from 'vue'
 import VueRouter, { RouteConfig } from 'vue-router'
+import EditableTableView from '@/views/EditableTableView.vue'
 import EditableTreeView from '@/views/EditableTreeView.vue'
 import TopView from '@/views/TopView.vue'
 
@@ -10,6 +11,11 @@ const routes: Array<RouteConfig> = [
     path: '/',
     name: 'top',
     component: TopView,
+  },
+  {
+    path: '/editable-table',
+    name: 'editable-table',
+    component: EditableTableView,
   },
   {
     path: '/editable-tree',

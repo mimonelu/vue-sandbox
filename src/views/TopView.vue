@@ -1,7 +1,8 @@
 <template>
-  <div>
+  <menu class="top-view">
+    <router-link to="/editable-table">EditableTable</router-link>
     <router-link to="/editable-tree">EditableTree</router-link>
-  </div>
+  </menu>
 </template>
 
 <script lang="ts">
@@ -12,4 +13,8 @@ export default class TopView extends Vue {}
 </script>
 
 <style lang="scss" scoped>
+.top-view {
+  display: flex;
+  flex-direction: column;
+}
 </style>
