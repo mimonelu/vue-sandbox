@@ -18,15 +18,14 @@
         </tr>
       </thead>
       <tbody v-if="bodies.length > 0">
-        <template v-for="bodyRow, bodyRowIndex of bodies">
-          <row
-            :key="`body__${bodyRowIndex}`"
-            :body-row="bodyRow"
-            :column-regulations="columnRegulations"
-            :row="bodyRowIndex"
-            :number-of-lines="numberOfLines"
-          />
-        </template>
+        <editable-table-row
+          v-for="bodyRow, bodyRowIndex of bodies"
+          :key="`body__${bodyRowIndex}`"
+          :columns="bodyRow"
+          :column-regulations="columnRegulations"
+          :row-index="bodyRowIndex"
+          :number-of-lines="numberOfLines"
+        />
       </tbody>
     </table>
   </div>
@@ -34,11 +33,11 @@
 
 <script lang="ts">
 import { Component, Prop, Vue } from 'vue-property-decorator'
-import Row from '@/components/editable-table/Row.vue'
+import EditableTableRow from '@/components/editable-table/EditableTableRow.vue'
 
 @Component({
   components: {
-    Row,
+    EditableTableRow,
   },
 })
 export default class EditableTable extends Vue {
@@ -53,16 +52,6 @@ export default class EditableTable extends Vue {
 
   @Prop({ required: false, default: true })
   numberOfLines?: boolean
-
-  getValueType (value: any): string {
-    if (value == null) {
-      return 'string'
-    }
-    if (Array.isArray(value)) {
-      return 'array'
-    }
-    return typeof value
-  }
 }
 </script>
 

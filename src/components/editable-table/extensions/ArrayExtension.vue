@@ -5,7 +5,7 @@
       :key="`option__${optionIndex}`"
     >
       <input
-        v-model="value[name]"
+        v-model="cell.value"
         type="checkbox"
         :value="option.value"
       />{{ option.label }}
@@ -17,14 +17,11 @@
 import { Component, Prop, Vue } from 'vue-property-decorator'
 
 @Component
-export default class CheckboxSwapper extends Vue {
+export default class ArrayExtension extends Vue {
   @Prop({ required: true })
   options?: any
 
   @Prop({ required: true })
-  value?: any
-
-  @Prop({ required: true })
-  name?: string
+  cell?: any
 }
 </script>

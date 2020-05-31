@@ -1,23 +1,27 @@
 <template>
-  <select>
-    <option
+  <div>
+    <label
       v-for="option, optionIndex in options"
       :key="`option__${optionIndex}`"
-      :value="option.value"
-      :selected="option.value === value"
-    >{{ option.label }}</option>
-  </select>
+    >
+      <input
+        v-model="cell.value"
+        type="radio"
+        :value="option.value"
+      />{{ option.label }}
+    </label>
+  </div>
 </template>
 
 <script lang="ts">
 import { Component, Prop, Vue } from 'vue-property-decorator'
 
 @Component
-export default class SelectSwapper extends Vue {
+export default class ButtonExtension extends Vue {
   @Prop({ required: true })
   options?: any
 
   @Prop({ required: true })
-  value?: any
+  cell?: any
 }
 </script>
