@@ -3,6 +3,8 @@
     v-bind="cell.attrs"
     :data-required-type="requiredValueType"
     :data-type-is-valid="'' + isTypeValid"
+    :data-is-required="'' + isRequired"
+    :data-is-empty="'' + isEmpty"
   >
     <template v-if="extension">
       <button-extension
@@ -122,6 +124,23 @@ export default class EditableTableCell extends Vue {
       return this.currentValueType === 'string'
     }
     return this.currentValueType === this.requiredValueType
+  }
+
+  get isRequired (): boolean {
+    const cell = this.cell
+    if (cell.required != null) {
+      return cell.required
+    }
+    const regulation = this.regulation
+    if (regulation && regulation.required != null) {
+      return regulation.required
+    }
+    return false
+  }
+
+  get isEmpty (): boolean {
+    const cell = this.cell
+    return cell.value == null || cell.value === ''
   }
 
   get valueLabel (): string {
