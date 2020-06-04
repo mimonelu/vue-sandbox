@@ -8,6 +8,7 @@
         v-model="cell.value"
         type="checkbox"
         :value="option.value"
+        :disabled="disabled"
       />{{ option.label }}
     </label>
   </div>
@@ -23,5 +24,8 @@ export default class ArrayExtension extends Vue {
 
   @Prop({ required: true })
   cell?: any
+
+  @Prop({ required: true })
+  disabled?: boolean
 }
 </script>

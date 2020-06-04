@@ -8,6 +8,7 @@
       :regulation="columnRegulations[columnIndex]"
       :row-index="rowIndex"
       :column-index="columnIndex"
+      :disabled="disabled"
     />
   </tr>
 </template>
@@ -33,5 +34,8 @@ export default class EditableTableRow extends Vue {
 
   @Prop({ required: true })
   numberOfLines?: boolean
+
+  @Prop({ required: true })
+  disabled?: boolean
 }
 </script>

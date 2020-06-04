@@ -78,7 +78,7 @@ export default class EditableTableView extends Vue {
       columnRegulations: [
         { extension: { type: 'button', label: 'Check', callback: this.showData } },
         { type: 'boolean' },
-        { type: 'number', rule (value: any) { return value <= 50 } },
+        { type: 'number', disabled: true, rule (value: any) { return value <= 50 } },
         { type: 'string', required: true },
         null,
         { list: [ 'apple', 'bug', 'cupid' ] },
@@ -92,6 +92,7 @@ export default class EditableTableView extends Vue {
         { extension: { type: 'button', label: 'Add up', callback: this.addUp } },
         { extension: { type: 'button', label: 'Add down', callback: this.addDown } },
       ],
+      disabled: false,
       numberOfLines: true,
     }
   }
@@ -108,7 +109,7 @@ export default class EditableTableView extends Vue {
       },
       { value: [ 'apple', 'bug', 'cupid' ][irandom(0, 2)] },
       { value: [ 1, 2, 3 ].sort(() => Math.random() - 0.5).splice(irandom(0, 3)) },
-      { value: (irandom(0, 1) === 1 ? irandom(0, 65535) : 'NG') },
+      { value: irandom(0, 65535) },
       { value: `https://google.com/search?q=${this.serialNumber}` },
       { value: 'Hello, EditableTable!' },
       { value: irandom(1, 3) },

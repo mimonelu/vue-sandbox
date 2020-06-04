@@ -1,8 +1,12 @@
 <template>
-  <a
-    :href="href"
-    :target="target"
-  >{{ label }}</a>
+  <div>
+    <div v-if="disabled">{{ label || href }}</div>
+    <a
+      v-else
+      :href="href"
+      :target="target"
+    >{{ label || href }}</a>
+  </div>
 </template>
 
 <script lang="ts">
@@ -16,7 +20,10 @@ export default class ButtonExtension extends Vue {
   @Prop({ required: false, default: '' })
   target?: string
 
-  @Prop({ required: true })
+  @Prop({ required: false, default: '' })
   label?: string
+
+  @Prop({ required: true })
+  disabled?: boolean
 }
 </script>

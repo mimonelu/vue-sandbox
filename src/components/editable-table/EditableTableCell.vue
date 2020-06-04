@@ -11,33 +11,39 @@
       <button-extension
         v-if="extension.type === 'button'"
         :label="extension.label || valueLabel"
+        :disabled="isDisabled"
         @click="extension.callback({ cell, row: rowIndex, column: columnIndex })"
       />
       <radio-extension
         v-else-if="extension.type === 'radio'"
         :options="extension.options"
         :cell="cell"
+        :disabled="isDisabled"
       />
       <select-extension
         v-else-if="extension.type === 'select'"
         :options="extension.options"
         :cell="cell"
+        :disabled="isDisabled"
       />
       <link-extension
         v-else-if="extension.type === 'link'"
         :href="cell.value"
         :target="extension.target"
         :label="extension.label || valueLabel"
+        :disabled="isDisabled"
       />
     </template>
     <boolean-extension
       v-else-if="requiredValueType === 'boolean'"
       :cell="cell"
+      :disabled="isDisabled"
     />
     <array-extension
       v-else-if="requiredValueType === 'array'"
       :options="getProp('options')"
       :cell="cell"
+      :disabled="isDisabled"
     />
     <text-extension
       v-else
@@ -45,6 +51,7 @@
       :cell="cell"
       :list="getProp('list')"
       :list-id="getProp('list') ? `list--${rowIndex}--${columnIndex}` : null"
+      :disabled="isDisabled"
     />
   </td>
 </template>
@@ -96,6 +103,9 @@ export default class EditableTableCell extends Vue {
 
   @Prop({ required: true })
   columnIndex?: number
+
+  @Prop({ required: true })
+  disabled?: boolean
 
   get currentValueType (): string {
     const cell = this.cell
@@ -150,6 +160,21 @@ export default class EditableTableCell extends Vue {
       return rule(this.cell.value)
     }
     return true
+  }
+
+  get isDisabled (): boolean {
+    if (this.disabled) {
+      return true
+    }
+    const cell = this.cell
+    if (cell.disabled != null) {
+      return cell.disabled
+    }
+    const regulation = this.regulation
+    if (regulation && regulation.disabled != null) {
+      return regulation.disabled
+    }
+    return false
   }
 
   get valueLabel (): string {

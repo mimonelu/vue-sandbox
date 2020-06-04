@@ -6,12 +6,14 @@
       v-model.number="cell.value"
       :type="type"
       :list="list ? listId : null"
+      :disabled="disabled"
     />
     <input
       v-else
       v-model="cell.value"
       :type="type"
       :list="list ? listId : null"
+      :disabled="disabled"
     />
 
     <datalist
@@ -43,5 +45,8 @@ export default class TextExtension extends Vue {
 
   @Prop({ required: false, default: null })
   listId?: string
+
+  @Prop({ required: true })
+  disabled?: boolean
 }
 </script>

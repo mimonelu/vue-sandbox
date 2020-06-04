@@ -25,6 +25,7 @@
           :column-regulations="columnRegulations"
           :row-index="bodyRowIndex"
           :number-of-lines="numberOfLines"
+          :disabled="disabled"
         />
       </tbody>
     </table>
@@ -52,6 +53,9 @@ export default class EditableTable extends Vue {
 
   @Prop({ required: false, default: true })
   numberOfLines?: boolean
+
+  @Prop({ required: false, default: false })
+  disabled?: boolean
 }
 </script>
 

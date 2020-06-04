@@ -2,7 +2,8 @@ export interface TEditableTable {
   headers?: any;
   bodies?: any;
   columnRegulations?: any;
-  numberOfLines?: any;
+  numberOfLines?: boolean;
+  disabled?: boolean;
 }
 
 export interface TEditableTableButtonParams {

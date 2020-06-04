@@ -1,5 +1,8 @@
 <template>
-  <select v-model="cell.value">
+  <select
+    v-model="cell.value"
+    :disabled="disabled"
+  >
     <option
       v-for="option, optionIndex in options"
       :key="`option__${optionIndex}`"
@@ -19,5 +22,8 @@ export default class SelectExtension extends Vue {
 
   @Prop({ required: true })
   cell?: any
+
+  @Prop({ required: true })
+  disabled?: boolean
 }
 </script>
