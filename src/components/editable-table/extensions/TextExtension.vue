@@ -1,10 +1,19 @@
 <template>
   <div>
+    <!-- NOTICE: `v-model.number` のために処理を分岐している -->
     <input
-      v-model="cell.value"
-      type="text"
+      v-if="type === 'number'"
+      v-model.number="cell.value"
+      :type="type"
       :list="list ? listId : null"
     />
+    <input
+      v-else
+      v-model="cell.value"
+      :type="type"
+      :list="list ? listId : null"
+    />
+
     <datalist
       v-if="list"
       :id="listId"
@@ -22,7 +31,10 @@
 import { Component, Prop, Vue } from 'vue-property-decorator'
 
 @Component
-export default class StringExtension extends Vue {
+export default class TextExtension extends Vue {
+  @Prop({ required: true })
+  type?: any
+
   @Prop({ required: true })
   cell?: any
 

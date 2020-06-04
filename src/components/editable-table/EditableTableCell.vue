@@ -1,7 +1,8 @@
 <template>
   <td
     v-bind="cell.attrs"
-    :data-type="valueType"
+    :data-required-type="requiredValueType"
+    :data-type-is-valid="'' + isTypeValid"
   >
     <template v-if="extension">
       <button-extension
@@ -27,21 +28,21 @@
       />
     </template>
     <boolean-extension
-      v-else-if="valueType === 'boolean'"
+      v-else-if="requiredValueType === 'boolean'"
       :cell="cell"
     />
-    <string-extension
-      v-else-if="valueType === 'string'"
+    <array-extension
+      v-else-if="requiredValueType === 'array'"
+      :options="getProp('options')"
+      :cell="cell"
+    />
+    <text-extension
+      v-else
+      :type="requiredValueType"
       :cell="cell"
       :list="getProp('list')"
       :list-id="getProp('list') ? `list--${rowIndex}--${columnIndex}` : null"
     />
-    <array-extension
-      v-else-if="valueType === 'array'"
-      :options="getProp('options')"
-      :cell="cell"
-    />
-    <template v-else>{{ valueLabel }}</template>
   </td>
 </template>
 
@@ -53,7 +54,7 @@ import ButtonExtension from '@/components/editable-table/extensions/ButtonExtens
 import LinkExtension from '@/components/editable-table/extensions/LinkExtension.vue'
 import RadioExtension from '@/components/editable-table/extensions/RadioExtension.vue'
 import SelectExtension from '@/components/editable-table/extensions/SelectExtension.vue'
-import StringExtension from '@/components/editable-table/extensions/StringExtension.vue'
+import TextExtension from '@/components/editable-table/extensions/TextExtension.vue'
 
 @Component({
   components: {
@@ -63,7 +64,7 @@ import StringExtension from '@/components/editable-table/extensions/StringExtens
     LinkExtension,
     RadioExtension,
     SelectExtension,
-    StringExtension,
+    TextExtension,
   },
 })
 export default class EditableTableCell extends Vue {
@@ -79,7 +80,7 @@ export default class EditableTableCell extends Vue {
   @Prop({ required: true })
   columnIndex?: number
 
-  get valueType (): string {
+  get currentValueType (): string {
     const cell = this.cell
     if (cell.value == null) {
       return 'string'
@@ -88,6 +89,22 @@ export default class EditableTableCell extends Vue {
       return 'array'
     }
     return typeof cell.value
+  }
+
+  get requiredValueType (): string {
+    const cell = this.cell
+    if (cell.type != null) {
+      return cell.type
+    }
+    const regulation = this.regulation
+    if (regulation && regulation.type != null) {
+      return regulation.type
+    }
+    return 'string'
+  }
+
+  get isTypeValid (): boolean {
+    return this.requiredValueType === this.currentValueType
   }
 
   get valueLabel (): string {

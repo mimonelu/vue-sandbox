@@ -82,11 +82,15 @@ export default class EditableTable extends Vue {
         }
 
         & > td {
-          &[data-type="boolean"] {
+          &[data-required-type="boolean"] {
             text-align: center;
           }
-          &[data-type="number"] {
+          &[data-required-type="number"] {
             text-align: right;
+          }
+          &[data-type-is-valid="false"] {
+            background-color: #ff0000;
+            color: #ffffff;
           }
         }
       }
