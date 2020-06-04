@@ -5,6 +5,7 @@
     :data-type-is-valid="'' + isTypeValid"
     :data-is-required="'' + isRequired"
     :data-is-empty="'' + isEmpty"
+    :data-is-ruled="'' + isRuled"
   >
     <template v-if="extension">
       <button-extension
@@ -141,6 +142,14 @@ export default class EditableTableCell extends Vue {
   get isEmpty (): boolean {
     const cell = this.cell
     return cell.value == null || cell.value === ''
+  }
+
+  get isRuled (): boolean {
+    const rule = this.getProp('rule')
+    if (rule != null) {
+      return rule(this.cell.value)
+    }
+    return true
   }
 
   get valueLabel (): string {

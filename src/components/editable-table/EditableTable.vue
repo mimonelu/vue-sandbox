@@ -95,6 +95,10 @@ export default class EditableTable extends Vue {
             background-color: #f00000;
             color: #f0f0f0;
           }
+          &[data-is-ruled="false"] {
+            background-color: #f000f0;
+            color: #f0f0f0;
+          }
         }
       }
     }

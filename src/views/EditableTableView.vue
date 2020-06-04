@@ -78,7 +78,7 @@ export default class EditableTableView extends Vue {
       columnRegulations: [
         { extension: { type: 'button', label: 'Check', callback: this.showData } },
         { type: 'boolean' },
-        { type: 'number' },
+        { type: 'number', rule (value: any) { return value <= 50 } },
         { type: 'string', required: true },
         null,
         { list: [ 'apple', 'bug', 'cupid' ] },
