@@ -10,3 +10,7 @@ export interface TEditableTableButtonParams {
   row: number;
   column: number;
 }
+
+export interface TObject {
+  [key: string]: any;
+}

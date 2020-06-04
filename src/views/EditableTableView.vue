@@ -22,6 +22,32 @@ export default class EditableTableView extends Vue {
 
   serialNumber = 0
 
+  otherStringTypes = [
+    'date',
+    'datetime-local',
+    'email',
+    'month',
+    'password',
+    'search',
+    'tel',
+    'time',
+    'url',
+    'week',
+  ]
+
+  otherStringValues = [
+    '2020-01-23',
+    '2020-01-23T02:34',
+    'editable-table@editable-table.com',
+    '2020-01',
+    'editable-table',
+    'Editable Table',
+    '012-345-6789',
+    '02:34',
+    'https://editable-table.com',
+    '2020-W04',
+  ]
+
   mounted () {
     this.editableTableProps = {
       headers: [
@@ -33,10 +59,10 @@ export default class EditableTableView extends Vue {
           { value: 'Controls', attrs: { colspan: 3 } },
         ],
         [
-          { value: 'Null' },
           { value: 'Boolean' },
           { value: 'Number' },
           { value: 'String' },
+          { value: 'Other string' },
           { value: 'List' },
           { value: 'Array' },
           { value: 'Link' },
@@ -51,9 +77,9 @@ export default class EditableTableView extends Vue {
       bodies: Array(500).fill(0).map(() => this.makeSampleRow()),
       columnRegulations: [
         { extension: { type: 'button', label: 'Check', callback: this.showData } },
-        null,
         { type: 'boolean' },
         { type: 'number' },
+        null,
         null,
         { list: [ 'apple', 'bug', 'cupid' ] },
         { type: 'array', options: [ { label: 'No.1', value: 1 }, { label: 'No.2', value: 2 }, { label: 'No.3', value: 3 } ] },
@@ -73,10 +99,13 @@ export default class EditableTableView extends Vue {
   makeSampleRow (): any {
     const result = [
       { value: null },
-      { value: null },
       { value: irandom(0, 1) === 1 },
       { value: this.serialNumber },
-      { value: (irandom(0, 1) === 1 ? [ ...Array(8).keys() ].map(() => Math.floor(Math.random() * 36).toString(36)).join('') : 123456789) },
+      { value: [ ...Array(8).keys() ].map(() => Math.floor(Math.random() * 36).toString(36)).join('') },
+      {
+        type: this.otherStringTypes[this.serialNumber % this.otherStringTypes.length],
+        value: this.otherStringValues[this.serialNumber % this.otherStringValues.length],
+      },
       { value: [ 'apple', 'bug', 'cupid' ][irandom(0, 2)] },
       { value: [ 1, 2, 3 ].sort(() => Math.random() - 0.5).splice(irandom(0, 3)) },
       { value: (irandom(0, 1) === 1 ? irandom(0, 65535) : 'NG') },

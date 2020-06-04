@@ -55,6 +55,20 @@ import LinkExtension from '@/components/editable-table/extensions/LinkExtension.
 import RadioExtension from '@/components/editable-table/extensions/RadioExtension.vue'
 import SelectExtension from '@/components/editable-table/extensions/SelectExtension.vue'
 import TextExtension from '@/components/editable-table/extensions/TextExtension.vue'
+import { TObject } from '@/components/editable-table/types'
+
+const stringTypes: TObject = {
+  date: true,
+  'datetime-local': true,
+  email: true,
+  month: true,
+  password: true,
+  search: true,
+  tel: true,
+  time: true,
+  url: true,
+  week: true,
+}
 
 @Component({
   components: {
@@ -104,7 +118,10 @@ export default class EditableTableCell extends Vue {
   }
 
   get isTypeValid (): boolean {
-    return this.requiredValueType === this.currentValueType
+    if (stringTypes[this.requiredValueType] === true) {
+      return this.currentValueType === 'string'
+    }
+    return this.currentValueType === this.requiredValueType
   }
 
   get valueLabel (): string {
