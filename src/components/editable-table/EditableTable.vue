@@ -26,6 +26,9 @@
           :row-index="bodyRowIndex"
           :number-of-lines="numberOfLines"
           :disabled="disabled"
+          :focused-row-index="focusedRowIndex"
+          :focused-column-index="focusedColumnIndex"
+          @cellOnClick="cellOnClick"
         />
       </tbody>
     </table>
@@ -35,6 +38,7 @@
 <script lang="ts">
 import { Component, Prop, Vue } from 'vue-property-decorator'
 import EditableTableRow from '@/components/editable-table/EditableTableRow.vue'
+import { TObject } from '@/components/editable-table/types'
 
 @Component({
   components: {
@@ -56,6 +60,15 @@ export default class EditableTable extends Vue {
 
   @Prop({ required: false, default: false })
   disabled?: boolean
+
+  focusedRowIndex = 0
+
+  focusedColumnIndex = 0
+
+  cellOnClick (params: TObject) {
+    this.focusedRowIndex = params.rowIndex
+    this.focusedColumnIndex = params.columnIndex
+  }
 }
 </script>
 
@@ -89,6 +102,7 @@ export default class EditableTable extends Vue {
         }
 
         & > td {
+          position: relative;
           &[data-required-type="boolean"] {
             text-align: center;
           }
@@ -105,6 +119,20 @@ export default class EditableTable extends Vue {
           &[data-is-ruled="false"] {
             background-color: #f000f0;
             color: #f0f0f0;
+          }
+          &[data-is-focused="true"]::after {
+            background-color: rgba(#0080f0, 0.125);
+            border: 3px solid #0080f0;
+            box-shadow: 0 0 0.25em 1px rgba(#0080f0, 0.5);
+            box-sizing: border-box;
+            content: "";
+            display: block;
+            pointer-events: none;
+            position: absolute;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
           }
         }
       }

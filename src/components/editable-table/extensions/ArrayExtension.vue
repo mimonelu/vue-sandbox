@@ -8,12 +8,13 @@
         type="checkbox"
         :value="option.value"
         :disabled="disabled"
+        @focus="onFocus"
       />{{ option.label }}</label>
   </div>
 </template>
 
 <script lang="ts">
-import { Component, Prop, Vue } from 'vue-property-decorator'
+import { Component, Emit, Prop, Vue } from 'vue-property-decorator'
 
 @Component
 export default class ArrayExtension extends Vue {
@@ -25,6 +26,9 @@ export default class ArrayExtension extends Vue {
 
   @Prop({ required: true })
   disabled?: boolean
+
+  @Emit('focused')
+  onFocus () { /**/ }
 }
 </script>
 

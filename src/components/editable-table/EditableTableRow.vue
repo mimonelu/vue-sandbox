@@ -9,13 +9,17 @@
       :row-index="rowIndex"
       :column-index="columnIndex"
       :disabled="disabled"
+      :focused-row-index="focusedRowIndex"
+      :focused-column-index="focusedColumnIndex"
+      @cellOnClick="cellOnClick"
     />
   </tr>
 </template>
 
 <script lang="ts">
-import { Component, Prop, Vue } from 'vue-property-decorator'
+import { Component, Emit, Prop, Vue } from 'vue-property-decorator'
 import EditableTableCell from '@/components/editable-table/EditableTableCell.vue'
+import { TObject } from '@/components/editable-table/types'
 
 @Component({
   components: {
@@ -37,5 +41,16 @@ export default class EditableTableRow extends Vue {
 
   @Prop({ required: true })
   disabled?: boolean
+
+  @Prop({ required: true })
+  focusedRowIndex?: number
+
+  @Prop({ required: true })
+  focusedColumnIndex?: number
+
+  @Emit('cellOnClick')
+  cellOnClick (params: TObject) {
+    return params
+  }
 }
 </script>

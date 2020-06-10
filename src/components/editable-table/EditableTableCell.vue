@@ -7,6 +7,8 @@
     :data-is-empty="'' + isEmpty"
     :data-is-ruled="'' + isRuled"
     :data-is-disabled="'' + isDisabled"
+    :data-is-focused="'' + isFocused"
+    @click="cellOnClick"
   >
     <template v-if="extension">
       <button-extension
@@ -14,18 +16,21 @@
         :label="extension.label || valueLabel"
         :disabled="isDisabled"
         @click="extension.callback({ cell, row: rowIndex, column: columnIndex })"
+        @focused="cellOnClick"
       />
       <radio-extension
         v-else-if="extension.type === 'radio'"
         :options="extension.options"
         :cell="cell"
         :disabled="isDisabled"
+        @focused="cellOnClick"
       />
       <select-extension
         v-else-if="extension.type === 'select'"
         :options="extension.options"
         :cell="cell"
         :disabled="isDisabled"
+        @focused="cellOnClick"
       />
       <link-extension
         v-else-if="extension.type === 'link'"
@@ -33,18 +38,21 @@
         :target="extension.target"
         :label="extension.label || valueLabel"
         :disabled="isDisabled"
+        @focused="cellOnClick"
       />
     </template>
     <boolean-extension
       v-else-if="requiredValueType === 'boolean'"
       :cell="cell"
       :disabled="isDisabled"
+      @focused="cellOnClick"
     />
     <array-extension
       v-else-if="requiredValueType === 'array'"
       :options="getProp('options')"
       :cell="cell"
       :disabled="isDisabled"
+      @focused="cellOnClick"
     />
     <text-extension
       v-else
@@ -53,12 +61,13 @@
       :list="getProp('list')"
       :list-id="getProp('list') ? `list--${rowIndex}--${columnIndex}` : null"
       :disabled="isDisabled"
+      @focused="cellOnClick"
     />
   </td>
 </template>
 
 <script lang="ts">
-import { Component, Prop, Vue } from 'vue-property-decorator'
+import { Component, Emit, Prop, Vue } from 'vue-property-decorator'
 import ArrayExtension from '@/components/editable-table/extensions/ArrayExtension.vue'
 import BooleanExtension from '@/components/editable-table/extensions/BooleanExtension.vue'
 import ButtonExtension from '@/components/editable-table/extensions/ButtonExtension.vue'
@@ -107,6 +116,12 @@ export default class EditableTableCell extends Vue {
 
   @Prop({ required: true })
   disabled?: boolean
+
+  @Prop({ required: true })
+  focusedRowIndex?: number
+
+  @Prop({ required: true })
+  focusedColumnIndex?: number
 
   get currentValueType (): string {
     const cell = this.cell
@@ -178,6 +193,10 @@ export default class EditableTableCell extends Vue {
     return false
   }
 
+  get isFocused (): boolean {
+    return this.rowIndex === this.focusedRowIndex && this.columnIndex === this.focusedColumnIndex
+  }
+
   get valueLabel (): string {
     const cell = this.cell
     if (cell.filter !== null) {
@@ -214,6 +233,19 @@ export default class EditableTableCell extends Vue {
       return regulation[name]
     }
     return null
+  }
+
+  @Emit('cellOnClick')
+  cellOnClick () {
+    const element = this.$el.querySelector('a, button') as HTMLElement
+    if (element) {
+      element.focus()
+    }
+
+    return {
+      rowIndex: this.rowIndex,
+      columnIndex: this.columnIndex,
+    }
   }
 }
 </script>

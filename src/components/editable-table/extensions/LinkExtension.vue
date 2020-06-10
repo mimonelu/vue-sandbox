@@ -5,12 +5,13 @@
       v-else
       :href="href"
       :target="target"
+      @focus="onFocus"
     >{{ label || href }}</a>
   </div>
 </template>
 
 <script lang="ts">
-import { Component, Prop, Vue } from 'vue-property-decorator'
+import { Component, Emit, Prop, Vue } from 'vue-property-decorator'
 
 @Component
 export default class ButtonExtension extends Vue {
@@ -25,6 +26,9 @@ export default class ButtonExtension extends Vue {
 
   @Prop({ required: true })
   disabled?: boolean
+
+  @Emit('focused')
+  onFocus () { /**/ }
 }
 </script>
 

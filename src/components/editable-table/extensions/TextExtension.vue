@@ -32,7 +32,7 @@
 </template>
 
 <script lang="ts">
-import { Component, Prop, Vue } from 'vue-property-decorator'
+import { Component, Emit, Prop, Vue } from 'vue-property-decorator'
 
 @Component
 export default class TextExtension extends Vue {
@@ -51,6 +51,7 @@ export default class TextExtension extends Vue {
   @Prop({ required: true })
   disabled?: boolean
 
+  @Emit('focused')
   onFocus ($event: Event) {
     ($event.target as HTMLInputElement).select()
   }
@@ -70,6 +71,7 @@ export default class TextExtension extends Vue {
     display: block;
     font-family: "Arial"; // TODO:
     font-size: 1em;
+    outline: none;
     padding: 0 0.5em;
     width: 100%;
     height: 100%;

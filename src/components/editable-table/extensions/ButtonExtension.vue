@@ -3,6 +3,7 @@
     <button
       :disabled="disabled"
       @click="click"
+      @focus="onFocus"
     >{{ label }}</button>
   </div>
 </template>
@@ -20,6 +21,9 @@ export default class ButtonExtension extends Vue {
 
   @Emit('click')
   click () { /**/ }
+
+  @Emit('focused')
+  onFocus () { /**/ }
 }
 </script>
 

@@ -55,7 +55,7 @@ export default class EditableTableView extends Vue {
           { value: 'Check', attrs: { rowspan: 2 } },
           { value: 'Primitives', attrs: { colspan: 6 } },
           { value: 'Filter\nDemo', attrs: { rowspan: 2 } },
-          { value: 'Swappers', attrs: { colspan: 4 } },
+          { value: 'Extensions', attrs: { colspan: 4 } },
           { value: 'Controls', attrs: { colspan: 3 } },
         ],
         [

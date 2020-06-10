@@ -3,6 +3,7 @@
     <select
       v-model="cell.value"
       :disabled="disabled"
+      @focus="onFocus"
     >
       <option
         v-for="option, optionIndex in options"
@@ -15,7 +16,7 @@
 </template>
 
 <script lang="ts">
-import { Component, Prop, Vue } from 'vue-property-decorator'
+import { Component, Emit, Prop, Vue } from 'vue-property-decorator'
 
 @Component
 export default class SelectExtension extends Vue {
@@ -27,18 +28,21 @@ export default class SelectExtension extends Vue {
 
   @Prop({ required: true })
   disabled?: boolean
+
+  @Emit('focused')
+  onFocus () { /**/ }
 }
 </script>
 
 <style lang="scss">
 .editable-table--select {
-  padding-right: 0.5em;
   position: relative;
   height: 100%;
 
   & > select {
     background-color: transparent;
     border-style: none;
+    border-right: 0.5em solid transparent;
     box-sizing: border-box;
     display: block;
     font-family: "Arial"; // TODO:
