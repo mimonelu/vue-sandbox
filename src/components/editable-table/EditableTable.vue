@@ -77,12 +77,15 @@ export default class EditableTable extends Vue {
         & > th,
         & > td {
           border: 1px solid $border-color;
-          padding: 0.25em 0.5em;
+          height: 1em; // NOTICE: テーブルセルの height で % 指定を有効にする
+          padding: 0;
+          vertical-align: middle;
           white-space: pre;
         }
 
         & > th {
           background-color: #f0f0f0;
+          padding: 0.25em 0.5em;
         }
 
         & > td {

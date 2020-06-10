@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div class="editable-table--link">
     <div v-if="disabled">{{ label || href }}</div>
     <a
       v-else
@@ -27,3 +27,16 @@ export default class ButtonExtension extends Vue {
   disabled?: boolean
 }
 </script>
+
+<style lang="scss">
+.editable-table--link {
+  padding: 0.25em 0.5em;
+
+  & > a {
+    color: #0080f0;
+    &:hover {
+      text-decoration: none;
+    }
+  }
+}
+</style>

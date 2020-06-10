@@ -6,6 +6,7 @@
     :data-is-required="'' + isRequired"
     :data-is-empty="'' + isEmpty"
     :data-is-ruled="'' + isRuled"
+    :data-is-disabled="'' + isDisabled"
   >
     <template v-if="extension">
       <button-extension
