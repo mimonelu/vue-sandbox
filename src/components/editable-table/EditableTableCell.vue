@@ -215,16 +215,27 @@ export default class EditableTableCell extends Vue {
 
   get valueLabel (): string {
     const cell = this.cell
+    const extension = this.extension
+    const value = (extension && extension.type === 'select') ? this.getSelectLabel(extension.options, cell.value) : cell.value
     if (cell.filter !== null) {
       if (cell.filter !== undefined) {
-        return cell.filter(cell.value)
+        return cell.filter(value)
       }
       const regulation = this.regulation
       if (regulation && regulation.filter) {
-        return regulation.filter(cell.value)
+        return regulation.filter(value)
       }
     }
-    return cell.value
+    return value
+  }
+
+  getSelectLabel (options: any, value: any): string {
+    for (let i = 0; i < options.length; i ++) {
+      if (options[i].value === value) {
+        return options[i].label
+      }
+    }
+    return ''
   }
 
   get extension (): any {

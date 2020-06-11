@@ -59,6 +59,9 @@
             background-color: var(--editable-table-notice-color);
             color: var(--editable-table-bg-color);
           }
+          &[data-is-disabled="true"] > * {
+            opacity: 0.5;
+          }
           &[data-is-focused="true"]::after,
           &:focus-within::after {
             background-color: rgba(var(--editable-table-accent-color), 0.125);

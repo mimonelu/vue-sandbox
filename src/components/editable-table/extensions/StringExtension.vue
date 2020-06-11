@@ -2,7 +2,7 @@
   <div class="editable-table--string">
     <input
       v-model="cell.value"
-      :type="type"
+      :type="validType"
       :readonly="disabled"
       @focus="onFocus"
       @input="onInput"
@@ -24,12 +24,16 @@ export default class StringExtension extends Vue {
   @Prop({ required: true })
   disabled?: boolean
 
+  get validType (): string {
+    return this.type === 'string' ? 'text' : this.type
+  }
+
   onFocus ($event: Event) {
     ($event.target as HTMLInputElement).select()
   }
 
   onInput ($event: Event) {
-    if ($event.target) {
+    if ((this.type === 'number' || this.type === 'string') && $event.target) {
       const target = $event.target as HTMLElement
       target.style.width = 'auto'
       target.style.width = `${target.scrollWidth}px`
