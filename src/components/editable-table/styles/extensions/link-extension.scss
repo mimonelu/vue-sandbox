@@ -1,0 +1,10 @@
+&--link {
+  padding: 0.25em 0.5em;
+
+  & > a {
+    color: var(--editable-table-accent-color);
+    &:hover {
+      text-decoration: none;
+    }
+  }
+}

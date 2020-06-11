@@ -1,5 +1,5 @@
 <template>
-  <div class="editable-table--text">
+  <div class="editable-table--string">
     <input
       v-model="cell.value"
       :type="type"

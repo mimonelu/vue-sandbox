@@ -1,0 +1,9 @@
+&--boolean {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 100%;
+  [data-is-disabled="false"] & {
+    cursor: pointer;
+  }
+}

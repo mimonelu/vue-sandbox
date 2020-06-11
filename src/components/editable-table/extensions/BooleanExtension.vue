@@ -20,19 +20,3 @@ export default class ButtonExtension extends Vue {
   disabled?: boolean
 }
 </script>
-
-<style lang="scss">
-.editable-table--boolean {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  height: 100%;
-  [data-is-disabled="false"] & {
-    cursor: pointer;
-  }
-
-  & > input {
-    margin: 0;
-  }
-}
-</style>

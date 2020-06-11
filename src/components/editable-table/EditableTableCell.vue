@@ -9,56 +9,16 @@
     :data-is-disabled="'' + isDisabled"
     @click="cellOnClick"
   >
-    <template v-if="extension">
-      <button-extension
-        v-if="extension.type === 'button'"
-        :label="extension.label || valueLabel"
-        :disabled="isDisabled"
-        @click="extension.callback({ cell, row: rowIndex, column: columnIndex })"
-      />
-      <radio-extension
-        v-else-if="extension.type === 'radio'"
-        :options="extension.options"
-        :cell="cell"
-        :disabled="isDisabled"
-      />
-      <select-extension
-        v-else-if="extension.type === 'select'"
-        :options="extension.options"
-        :cell="cell"
-        :disabled="isDisabled"
-      />
-      <link-extension
-        v-else-if="extension.type === 'link'"
-        :href="cell.value"
-        :target="extension.target"
-        :label="extension.label || valueLabel"
-        :disabled="isDisabled"
-      />
-      <list-extension
-        v-else-if="extension.type === 'list'"
-        :type="requiredValueType"
-        :cell="cell"
-        :list="extension.options"
-        :list-id="`list--${rowIndex}--${columnIndex}`"
-        :disabled="isDisabled"
-      />
-    </template>
     <boolean-extension
-      v-else-if="requiredValueType === 'boolean'"
+      v-if="requiredValueType === 'boolean'"
       :cell="cell"
       :disabled="isDisabled"
     />
-    <number-extension
-      v-else-if="requiredValueType === 'number'"
-      :type="requiredValueType"
-      :cell="cell"
+    <button-extension
+      v-else-if="extension && extension.type === 'button'"
+      :label="extension.label || valueLabel"
       :disabled="isDisabled"
-    />
-    <text-extension
-      v-else-if="requiredValueType === 'string' && getProp('multiline')"
-      :cell="cell"
-      :disabled="isDisabled"
+      @click="extension.callback({ cell, row: rowIndex, column: columnIndex })"
     />
     <array-extension
       v-else-if="requiredValueType === 'array'"
@@ -66,12 +26,56 @@
       :cell="cell"
       :disabled="isDisabled"
     />
-    <string-extension
-      v-else
-      :type="requiredValueType"
+    <radio-extension
+      v-else-if="extension && extension.type === 'radio'"
+      :options="extension.options"
       :cell="cell"
       :disabled="isDisabled"
     />
+    <link-extension
+      v-else-if="extension && extension.type === 'link'"
+      :href="cell.value"
+      :target="extension.target"
+      :label="extension.label || valueLabel"
+      :disabled="isDisabled"
+    />
+    <template v-else-if="isFocused">
+      <list-extension
+        v-if="extension && extension.type === 'list'"
+        :type="requiredValueType"
+        :cell="cell"
+        :list="extension.options"
+        :list-id="`list--${rowIndex}--${columnIndex}`"
+        :disabled="isDisabled"
+      />
+      <select-extension
+        v-else-if="extension && extension.type === 'select'"
+        :options="extension.options"
+        :cell="cell"
+        :disabled="isDisabled"
+      />
+      <number-extension
+        v-else-if="requiredValueType === 'number'"
+        :type="requiredValueType"
+        :cell="cell"
+        :disabled="isDisabled"
+      />
+      <text-extension
+        v-else-if="requiredValueType === 'string' && getProp('multiline')"
+        :cell="cell"
+        :disabled="isDisabled"
+      />
+      <string-extension
+        v-else
+        :type="requiredValueType"
+        :cell="cell"
+        :disabled="isDisabled"
+      />
+    </template>
+    <div
+      v-else
+      class="editable-table--label"
+    >{{ valueLabel }}</div>
   </td>
 </template>
 
@@ -131,6 +135,13 @@ export default class EditableTableCell extends Vue {
 
   @Prop({ required: true })
   disabled?: boolean
+
+  @Prop({ required: true })
+  params?: any
+
+  get isFocused (): boolean {
+    return this.params.focus.x === this.columnIndex && this.params.focus.y === this.rowIndex
+  }
 
   get currentValueType (): string {
     const cell = this.cell
@@ -241,10 +252,8 @@ export default class EditableTableCell extends Vue {
   }
 
   cellOnClick () {
-    const element = this.$el.querySelector('a, button') as HTMLElement
-    if (element) {
-      element.focus()
-    }
+    this.params.focus.x = this.columnIndex
+    this.params.focus.y = this.rowIndex
   }
 }
 </script>

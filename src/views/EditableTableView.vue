@@ -74,7 +74,7 @@ export default class EditableTableView extends Vue {
           { value: 'Add down' },
         ],
       ],
-      bodies: Array(50).fill(0).map(() => this.makeSampleRow()),
+      bodies: Array(100).fill(0).map(() => this.makeSampleRow()),
       columnRegulations: [
         { extension: { type: 'button', label: 'Check', callback: this.showData } },
         { type: 'boolean' },

@@ -29,29 +29,3 @@ export default class SelectExtension extends Vue {
   disabled?: boolean
 }
 </script>
-
-<style lang="scss">
-.editable-table--select {
-  position: relative;
-  height: 100%;
-
-  & > select {
-    appearance: none;
-    background-color: transparent;
-    border-style: none;
-    border-right: 0.5em solid transparent;
-    box-sizing: border-box;
-    display: block;
-    font-family: "Arial"; // TODO:
-    font-size: 1em;
-    outline: none;
-    padding: 0 0 0 0.5em;
-    width: 100%;
-    height: 100%;
-    min-width: 6em; // TODO:
-    [data-is-disabled="false"] & {
-      cursor: pointer;
-    }
-  }
-}
-</style>

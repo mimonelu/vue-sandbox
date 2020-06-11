@@ -9,6 +9,7 @@
       :row-index="rowIndex"
       :column-index="columnIndex"
       :disabled="disabled"
+      :params="params"
     />
   </tr>
 </template>
@@ -37,5 +38,8 @@ export default class EditableTableRow extends Vue {
 
   @Prop({ required: true })
   disabled?: boolean
+
+  @Prop({ required: true })
+  params?: any
 }
 </script>
