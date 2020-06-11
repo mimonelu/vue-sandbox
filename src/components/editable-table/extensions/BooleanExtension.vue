@@ -4,13 +4,12 @@
       v-model="cell.value"
       type="checkbox"
       :disabled="disabled"
-      @focus="onFocus"
     />
   </label>
 </template>
 
 <script lang="ts">
-import { Component, Emit, Prop, Vue } from 'vue-property-decorator'
+import { Component, Prop, Vue } from 'vue-property-decorator'
 
 @Component
 export default class ButtonExtension extends Vue {
@@ -19,9 +18,6 @@ export default class ButtonExtension extends Vue {
 
   @Prop({ required: true })
   disabled?: boolean
-
-  @Emit('focused')
-  onFocus () { /**/ }
 }
 </script>
 

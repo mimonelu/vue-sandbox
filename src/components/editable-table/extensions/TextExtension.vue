@@ -1,81 +1,62 @@
 <template>
   <div class="editable-table--text">
-    <!-- NOTICE: `v-model.number` のために処理を分岐している -->
-    <input
-      v-if="type === 'number'"
-      v-model.number="cell.value"
-      :type="type"
-      :list="list ? listId : null"
-      :readonly="disabled"
-      @focus="onFocus"
-    />
-    <input
-      v-else
+    <textarea
       v-model="cell.value"
-      :type="type"
-      :list="list ? listId : null"
       :readonly="disabled"
+      rows="1"
       @focus="onFocus"
+      @input="onInput"
     />
-
-    <datalist
-      v-if="list"
-      :id="listId"
-    >
-      <option
-        v-for="listValue, listIndex in list"
-        :key="`${listId}--${listIndex}`"
-        :value="listValue"
-      />
-    </datalist>
   </div>
 </template>
 
 <script lang="ts">
-import { Component, Emit, Prop, Vue } from 'vue-property-decorator'
+import { Component, Prop, Vue } from 'vue-property-decorator'
 
 @Component
 export default class TextExtension extends Vue {
   @Prop({ required: true })
-  type?: any
-
-  @Prop({ required: true })
   cell?: any
-
-  @Prop({ required: false, default: null })
-  list?: any
-
-  @Prop({ required: false, default: null })
-  listId?: string
 
   @Prop({ required: true })
   disabled?: boolean
 
-  @Emit('focused')
   onFocus ($event: Event) {
     ($event.target as HTMLInputElement).select()
+  }
+
+  onInput ($event: Event) {
+    if ($event.target) {
+      const target = $event.target as HTMLElement
+      target.style.width = 'auto'
+      target.style.height = 'auto'
+      target.style.width = `${target.scrollWidth}px`
+      target.style.height = `${target.scrollHeight}px`
+    }
   }
 }
 </script>
 
 <style lang="scss">
 .editable-table--text {
-  position: relative;
   height: 100%;
 
-  & > input {
+  & > textarea {
     appearance: none;
     background-color: transparent;
     border-style: none;
-    box-sizing: border-box;
     display: block;
     font-family: "Arial"; // TODO:
     font-size: 1em;
+    line-height: 1;
+    overflow: hidden;
     outline: none;
-    padding: 0 0.5em;
+    padding: 0.5em;
+    resize: none;
     width: 100%;
     height: 100%;
     min-width: 6em; // TODO:
+    white-space: nowrap;
     &[readonly="readonly"] {
       opacity: 0.5;
     }

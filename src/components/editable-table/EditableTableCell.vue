@@ -7,7 +7,6 @@
     :data-is-empty="'' + isEmpty"
     :data-is-ruled="'' + isRuled"
     :data-is-disabled="'' + isDisabled"
-    :data-is-focused="'' + isFocused"
     @click="cellOnClick"
   >
     <template v-if="extension">
@@ -16,21 +15,18 @@
         :label="extension.label || valueLabel"
         :disabled="isDisabled"
         @click="extension.callback({ cell, row: rowIndex, column: columnIndex })"
-        @focused="cellOnClick"
       />
       <radio-extension
         v-else-if="extension.type === 'radio'"
         :options="extension.options"
         :cell="cell"
         :disabled="isDisabled"
-        @focused="cellOnClick"
       />
       <select-extension
         v-else-if="extension.type === 'select'"
         :options="extension.options"
         :cell="cell"
         :disabled="isDisabled"
-        @focused="cellOnClick"
       />
       <link-extension
         v-else-if="extension.type === 'link'"
@@ -38,42 +34,58 @@
         :target="extension.target"
         :label="extension.label || valueLabel"
         :disabled="isDisabled"
-        @focused="cellOnClick"
+      />
+      <list-extension
+        v-else-if="extension.type === 'list'"
+        :type="requiredValueType"
+        :cell="cell"
+        :list="extension.options"
+        :list-id="`list--${rowIndex}--${columnIndex}`"
+        :disabled="isDisabled"
       />
     </template>
     <boolean-extension
       v-else-if="requiredValueType === 'boolean'"
       :cell="cell"
       :disabled="isDisabled"
-      @focused="cellOnClick"
+    />
+    <number-extension
+      v-else-if="requiredValueType === 'number'"
+      :type="requiredValueType"
+      :cell="cell"
+      :disabled="isDisabled"
+    />
+    <text-extension
+      v-else-if="requiredValueType === 'string' && getProp('multiline')"
+      :cell="cell"
+      :disabled="isDisabled"
     />
     <array-extension
       v-else-if="requiredValueType === 'array'"
       :options="getProp('options')"
       :cell="cell"
       :disabled="isDisabled"
-      @focused="cellOnClick"
     />
-    <text-extension
+    <string-extension
       v-else
       :type="requiredValueType"
       :cell="cell"
-      :list="getProp('list')"
-      :list-id="getProp('list') ? `list--${rowIndex}--${columnIndex}` : null"
       :disabled="isDisabled"
-      @focused="cellOnClick"
     />
   </td>
 </template>
 
 <script lang="ts">
-import { Component, Emit, Prop, Vue } from 'vue-property-decorator'
+import { Component, Prop, Vue } from 'vue-property-decorator'
 import ArrayExtension from '@/components/editable-table/extensions/ArrayExtension.vue'
 import BooleanExtension from '@/components/editable-table/extensions/BooleanExtension.vue'
 import ButtonExtension from '@/components/editable-table/extensions/ButtonExtension.vue'
 import LinkExtension from '@/components/editable-table/extensions/LinkExtension.vue'
+import ListExtension from '@/components/editable-table/extensions/ListExtension.vue'
+import NumberExtension from '@/components/editable-table/extensions/NumberExtension.vue'
 import RadioExtension from '@/components/editable-table/extensions/RadioExtension.vue'
 import SelectExtension from '@/components/editable-table/extensions/SelectExtension.vue'
+import StringExtension from '@/components/editable-table/extensions/StringExtension.vue'
 import TextExtension from '@/components/editable-table/extensions/TextExtension.vue'
 import { TObject } from '@/components/editable-table/types'
 
@@ -96,8 +108,11 @@ const stringTypes: TObject = {
     BooleanExtension,
     ButtonExtension,
     LinkExtension,
+    ListExtension,
+    NumberExtension,
     RadioExtension,
     SelectExtension,
+    StringExtension,
     TextExtension,
   },
 })
@@ -116,12 +131,6 @@ export default class EditableTableCell extends Vue {
 
   @Prop({ required: true })
   disabled?: boolean
-
-  @Prop({ required: true })
-  focusedRowIndex?: number
-
-  @Prop({ required: true })
-  focusedColumnIndex?: number
 
   get currentValueType (): string {
     const cell = this.cell
@@ -193,10 +202,6 @@ export default class EditableTableCell extends Vue {
     return false
   }
 
-  get isFocused (): boolean {
-    return this.rowIndex === this.focusedRowIndex && this.columnIndex === this.focusedColumnIndex
-  }
-
   get valueLabel (): string {
     const cell = this.cell
     if (cell.filter !== null) {
@@ -235,16 +240,10 @@ export default class EditableTableCell extends Vue {
     return null
   }
 
-  @Emit('cellOnClick')
   cellOnClick () {
     const element = this.$el.querySelector('a, button') as HTMLElement
     if (element) {
       element.focus()
-    }
-
-    return {
-      rowIndex: this.rowIndex,
-      columnIndex: this.columnIndex,
     }
   }
 }
