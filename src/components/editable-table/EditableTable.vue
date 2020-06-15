@@ -56,6 +56,57 @@ export default class EditableTable extends Vue {
 
   @Prop({ required: false, default: false })
   disabled?: boolean
+
+  @Prop({ required: false, default: () => ({ x: 0, y: 0 }) })
+  focus: any
+
+  mounted () {
+    window.addEventListener('keydown', this.onKeyDown, false)
+  }
+
+  onKeyDown (event: KeyboardEvent) {
+    const editing = !Vue.prototype.$currentCell || Vue.prototype.$currentCell.editing
+    if (!editing) {
+      switch (event.key) {
+        case 'ArrowUp': {
+          this.addFocus(0, - 1)
+          event.preventDefault()
+          break
+        }
+        case 'ArrowRight': {
+          this.addFocus(1, 0)
+          event.preventDefault()
+          break
+        }
+        case 'ArrowDown': {
+          this.addFocus(0, 1)
+          event.preventDefault()
+          break
+        }
+        case 'ArrowLeft': {
+          this.addFocus(- 1, 0)
+          event.preventDefault()
+          break
+        }
+      }
+    }
+  }
+
+  addFocus (addingX: number, addingY: number) {
+    if (Vue.prototype.$currentCell && !Vue.prototype.$currentCell.editing) {
+      const x = Vue.prototype.$currentCell.columnIndex + addingX
+      const y = Vue.prototype.$currentCell.rowIndex + addingY
+      if (this.$children[y] && this.$children[y].$children[x]) {
+        Vue.prototype.$currentCell.focused = false
+        Vue.prototype.$currentCell = this.$children[y].$children[x]
+        Vue.prototype.$currentCell.focused = true
+        Vue.prototype.$currentCell.$el.scrollIntoView({
+          block: 'nearest',
+          inline: 'nearest',
+        })
+      }
+    }
+  }
 }
 </script>
 

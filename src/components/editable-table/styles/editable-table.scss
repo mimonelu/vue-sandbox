@@ -1,13 +1,13 @@
 .editable-table {
   --editable-table-font-family: -apple-system, BlinkMacSystemFont, "Helvetica Neue", "Segoe UI", "Yu Gothic", YuGothic, sans-serif;
-  --editable-table-bg-color: #ffffff;
-  --editable-table-fg-color: #303030;
-  --editable-table-header-color: #e0e0e0;
+  --editable-table-bg-color: 255, 255, 255;
+  --editable-table-fg-color: 32, 32, 32;
+  --editable-table-header-color: 224, 224, 224;
   --editable-table-accent-color: 0, 128, 240;
-  --editable-table-notice-color: #ff0000;
-  --editable-table-border-color: #c0c0c0;
+  --editable-table-notice-color: 255, 0, 0;
+  --editable-table-border-color: 192, 192, 192;
 
-  color: var(--editable-table-fg-color);
+  color: rgba(var(--editable-table-fg-color), 1.0);
   font-family: var(--editable-table-font-family);
   font-size: 1rem;
   -moz-osx-font-smoothing: grayscale;
@@ -27,7 +27,7 @@
       & > tr {
         & > th,
         & > td {
-          border: 1px solid var(--editable-table-border-color);
+          border: 1px solid rgba(var(--editable-table-border-color), 1.0);
           height: 1em; // NOTICE: テーブルセルの height で % 指定を有効にする
           user-select: none;
           vertical-align: middle;
@@ -35,12 +35,12 @@
         }
 
         & > th {
-          background-color: var(--editable-table-header-color);
+          background-color: rgba(var(--editable-table-header-color), 1.0);
           padding: 0.25em 0.5em;
         }
 
         & > td {
-          background-color: var(--editable-table-bg-color);
+          background-color: rgba(var(--editable-table-bg-color), 1.0);
           position: relative;
           &[data-required-type="boolean"] {
             text-align: center;
@@ -49,16 +49,16 @@
             text-align: right;
           }
           &[data-type-is-valid="false"] {
-            background-color: var(--editable-table-notice-color);
-            color: var(--editable-table-bg-color);
+            background-color: rgba(var(--editable-table-notice-color), 1.0);
+            color: rgba(var(--editable-table-bg-color), 1.0);
           }
           &[data-is-required="true"][data-is-empty="true"] {
-            background-color: var(--editable-table-notice-color);
-            color: var(--editable-table-bg-color);
+            background-color: rgba(var(--editable-table-notice-color), 1.0);
+            color: rgba(var(--editable-table-bg-color), 1.0);
           }
           &[data-is-ruled="false"] {
-            background-color: var(--editable-table-notice-color);
-            color: var(--editable-table-bg-color);
+            background-color: rgba(var(--editable-table-notice-color), 1.0);
+            color: rgba(var(--editable-table-bg-color), 1.0);
           }
           &[data-is-disabled="true"] > * {
             opacity: 0.5;

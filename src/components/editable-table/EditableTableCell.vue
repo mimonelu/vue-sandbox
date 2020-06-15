@@ -143,10 +143,6 @@ export default class EditableTableCell extends Vue {
 
   editing = false
 
-  updated () {
-    console.log('🔥')
-  }
-
   get currentValueType (): string {
     const cell = this.cell
     if (cell.value == null) {
@@ -276,7 +272,9 @@ export default class EditableTableCell extends Vue {
   }
 
   onDoubleClick () {
-    this.editing = true
+    if ((!this.extension || this.extension.type === 'select' || this.extension.type === 'list') && this.requiredValueType !== 'boolean' && this.requiredValueType !== 'array') {
+      this.editing = true
+    }
   }
 }
 </script>
