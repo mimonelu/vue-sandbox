@@ -7,7 +7,10 @@
     :data-is-empty="'' + isEmpty"
     :data-is-ruled="'' + isRuled"
     :data-is-disabled="'' + isDisabled"
-    @click="cellOnClick"
+    :data-is-focused="'' + focused"
+    :data-is-editing="'' + editing"
+    @click="onClick"
+    @dblclick="onDoubleClick"
   >
     <boolean-extension
       v-if="requiredValueType === 'boolean'"
@@ -39,7 +42,7 @@
       :label="extension.label || valueLabel"
       :disabled="isDisabled"
     />
-    <template v-else-if="isFocused">
+    <template v-else-if="focused && editing">
       <list-extension
         v-if="extension && extension.type === 'list'"
         :type="requiredValueType"
@@ -136,11 +139,12 @@ export default class EditableTableCell extends Vue {
   @Prop({ required: true })
   disabled?: boolean
 
-  @Prop({ required: true })
-  params?: any
+  focused = false
 
-  get isFocused (): boolean {
-    return this.params.focus.x === this.columnIndex && this.params.focus.y === this.rowIndex
+  editing = false
+
+  updated () {
+    console.log('🔥')
   }
 
   get currentValueType (): string {
@@ -262,9 +266,17 @@ export default class EditableTableCell extends Vue {
     return null
   }
 
-  cellOnClick () {
-    this.params.focus.x = this.columnIndex
-    this.params.focus.y = this.rowIndex
+  onClick () {
+    if (Vue.prototype.$currentCell && Vue.prototype.$currentCell !== this) {
+      Vue.prototype.$currentCell.focused = false
+      Vue.prototype.$currentCell.editing = false
+    }
+    Vue.prototype.$currentCell = this
+    this.focused = true
+  }
+
+  onDoubleClick () {
+    this.editing = true
   }
 }
 </script>

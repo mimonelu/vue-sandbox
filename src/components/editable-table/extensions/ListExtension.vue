@@ -5,6 +5,7 @@
       :type="type"
       :list="listId"
       :readonly="disabled"
+      ref="input"
       @focus="onFocus"
     />
     <datalist
@@ -40,8 +41,12 @@ export default class ListExtension extends Vue {
   @Prop({ required: true })
   disabled?: boolean
 
-  onFocus ($event: Event) {
-    ($event.target as HTMLInputElement).select()
+  mounted () {
+    this.onFocus()
+  }
+
+  onFocus () {
+    (this.$refs.input as HTMLInputElement).select()
   }
 }
 </script>

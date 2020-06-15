@@ -3,6 +3,7 @@
     <select
       v-model="cell.value"
       :disabled="disabled"
+      ref="select"
     >
       <option
         v-for="option, optionIndex in options"
@@ -27,5 +28,9 @@ export default class SelectExtension extends Vue {
 
   @Prop({ required: true })
   disabled?: boolean
+
+  mounted () {
+    (this.$refs.select as HTMLSelectElement).focus()
+  }
 }
 </script>

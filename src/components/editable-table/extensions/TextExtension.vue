@@ -3,6 +3,7 @@
     <textarea
       v-model="cell.value"
       :readonly="disabled"
+      ref="textarea"
       rows="1"
       @focus="onFocus"
       @input="onInput"
@@ -21,8 +22,12 @@ export default class TextExtension extends Vue {
   @Prop({ required: true })
   disabled?: boolean
 
-  onFocus ($event: Event) {
-    ($event.target as HTMLInputElement).select()
+  mounted () {
+    this.onFocus()
+  }
+
+  onFocus () {
+    (this.$refs.textarea as HTMLInputElement).select()
   }
 
   onInput ($event: Event) {

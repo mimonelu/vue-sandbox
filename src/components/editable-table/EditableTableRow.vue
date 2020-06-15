@@ -3,13 +3,12 @@
     <th v-if="numberOfLines">{{ rowIndex + 1 }}</th>
     <editable-table-cell
       v-for="cell, columnIndex of columns"
-      :key="`body__${rowIndex}__${columnIndex}`"
+      :key="columnIndex"
       :cell="columns[columnIndex]"
       :regulation="columnRegulations[columnIndex]"
       :row-index="rowIndex"
       :column-index="columnIndex"
       :disabled="disabled"
-      :params="params"
     />
   </tr>
 </template>
@@ -38,8 +37,5 @@ export default class EditableTableRow extends Vue {
 
   @Prop({ required: true })
   disabled?: boolean
-
-  @Prop({ required: true })
-  params?: any
 }
 </script>

@@ -20,13 +20,12 @@
       <tbody v-if="bodies.length > 0">
         <editable-table-row
           v-for="bodyRow, bodyRowIndex of bodies"
-          :key="`body__${bodyRowIndex}`"
+          :key="bodyRowIndex"
           :columns="bodyRow"
           :column-regulations="columnRegulations"
           :row-index="bodyRowIndex"
           :number-of-lines="numberOfLines"
           :disabled="disabled"
-          :params="params"
         />
       </tbody>
     </table>
@@ -57,10 +56,6 @@ export default class EditableTable extends Vue {
 
   @Prop({ required: false, default: false })
   disabled?: boolean
-
-  params = {
-    focus: { x: 0, y: 0 },
-  }
 }
 </script>
 

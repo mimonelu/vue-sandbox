@@ -4,6 +4,7 @@
       v-model="cell.value"
       :type="validType"
       :readonly="disabled"
+      ref="input"
       @focus="onFocus"
       @input="onInput"
     />
@@ -28,8 +29,12 @@ export default class StringExtension extends Vue {
     return this.type === 'string' ? 'text' : this.type
   }
 
-  onFocus ($event: Event) {
-    ($event.target as HTMLInputElement).select()
+  mounted () {
+    this.onFocus()
+  }
+
+  onFocus () {
+    (this.$refs.input as HTMLInputElement).select()
   }
 
   onInput ($event: Event) {

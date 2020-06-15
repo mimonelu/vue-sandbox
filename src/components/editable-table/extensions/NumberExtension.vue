@@ -4,6 +4,7 @@
       v-model.number="cell.value"
       :type="type"
       :readonly="disabled"
+      ref="input"
       @focus="onFocus"
       @input="onInput"
     />
@@ -24,8 +25,12 @@ export default class NumberExtension extends Vue {
   @Prop({ required: true })
   disabled?: boolean
 
-  onFocus ($event: Event) {
-    ($event.target as HTMLInputElement).select()
+  mounted () {
+    this.onFocus()
+  }
+
+  onFocus () {
+    (this.$refs.input as HTMLInputElement).select()
   }
 
   onInput ($event: Event) {
