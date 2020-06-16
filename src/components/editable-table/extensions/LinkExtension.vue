@@ -5,6 +5,8 @@
       v-else
       :href="href"
       :target="target"
+      class="editable-table__focusable-target"
+      tabindex="-1"
     >{{ label || href }}</a>
   </div>
 </template>

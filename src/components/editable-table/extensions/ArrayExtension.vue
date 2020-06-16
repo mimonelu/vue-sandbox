@@ -5,6 +5,7 @@
       :key="`option__${optionIndex}`"
     ><input
         v-model="cell.value"
+        tabindex="-1"
         type="checkbox"
         :value="option.value"
         :disabled="disabled"

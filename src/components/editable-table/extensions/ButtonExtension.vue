@@ -2,6 +2,8 @@
   <div class="editable-table--button">
     <button
       :disabled="disabled"
+      class="editable-table__focusable-target"
+      tabindex="-1"
       @click="click"
     >{{ label }}</button>
   </div>

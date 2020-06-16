@@ -6,6 +6,7 @@
     >
       <input
         v-model="cell.value"
+        tabindex="-1"
         type="radio"
         :value="option.value"
         :disabled="disabled"

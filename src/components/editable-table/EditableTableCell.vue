@@ -262,17 +262,34 @@ export default class EditableTableCell extends Vue {
     return null
   }
 
+  // TODO: 要リファクタリング
+  canEdit (): boolean {
+    return (!this.extension || this.extension.type === 'select' || this.extension.type === 'list') && this.requiredValueType !== 'boolean' && this.requiredValueType !== 'array'
+  }
+
+  focus () {
+    if (document.activeElement) {
+      (document.activeElement as HTMLInputElement).blur()
+    }
+    const focusableTarget = this.$el.querySelector('.editable-table__focusable-target') as HTMLInputElement
+    if (focusableTarget) {
+      focusableTarget.focus()
+    }
+  }
+
   onClick () {
-    if (Vue.prototype.$currentCell && Vue.prototype.$currentCell !== this) {
-      Vue.prototype.$currentCell.focused = false
-      Vue.prototype.$currentCell.editing = false
+    const currentCell = Vue.prototype.$currentCell
+    if (currentCell && currentCell !== this) {
+      currentCell.focused = false
+      currentCell.editing = false
     }
     Vue.prototype.$currentCell = this
     this.focused = true
+    this.focus()
   }
 
   onDoubleClick () {
-    if ((!this.extension || this.extension.type === 'select' || this.extension.type === 'list') && this.requiredValueType !== 'boolean' && this.requiredValueType !== 'array') {
+    if (this.canEdit()) {
       this.editing = true
     }
   }

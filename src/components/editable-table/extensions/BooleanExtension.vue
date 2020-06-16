@@ -2,6 +2,8 @@
   <label class="editable-table--boolean">
     <input
       v-model="cell.value"
+      class="editable-table__focusable-target"
+      tabindex="-1"
       type="checkbox"
       :disabled="disabled"
     />
