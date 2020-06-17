@@ -62,34 +62,64 @@ export default class EditableTable extends Vue {
   }
 
   onKeyDown (event: KeyboardEvent) {
+    const currentCell = Vue.prototype.$currentCell
+    const editing = !currentCell || currentCell.editing
+    if (!event.isComposing) {
+      switch (event.key) {
+        case 'Tab': {
+          if (currentCell && currentCell.editing) {
+            currentCell.editing = false
+          }
+          this.addFocus(event.shiftKey ? - 1 : 1, 0)
+          event.preventDefault()
+          break
+        }
+      }
+    }
     if (event.altKey || event.ctrlKey || event.shiftKey) {
       return
     }
-    const currentCell = Vue.prototype.$currentCell
-    const editing = !currentCell || currentCell.editing
     if (!editing) {
       switch (event.key) {
         case 'ArrowUp': {
-          this.addFocus(0, - 1)
+          if (event.metaKey) {
+            this.setFocusToTop()
+          } else {
+            this.addFocus(0, - 1)
+          }
           event.preventDefault()
           break
         }
         case 'ArrowRight': {
-          this.addFocus(1, 0)
+          if (event.metaKey) {
+            this.setFocusToRight()
+          } else {
+            this.addFocus(1, 0)
+          }
           event.preventDefault()
           break
         }
         case 'ArrowDown': {
-          this.addFocus(0, 1)
+          if (event.metaKey) {
+            this.setFocusToBottom()
+          } else {
+            this.addFocus(0, 1)
+          }
           event.preventDefault()
           break
         }
         case 'ArrowLeft': {
-          this.addFocus(- 1, 0)
+          if (event.metaKey) {
+            this.setFocusToLeft()
+          } else {
+            this.addFocus(- 1, 0)
+          }
           event.preventDefault()
           break
         }
-        case 'Enter': {
+        case 'Enter':
+        case 'F2':
+        case ' ': {
           if (currentCell && currentCell.canEdit()) {
             currentCell.editing = true
             event.preventDefault()
@@ -119,21 +149,52 @@ export default class EditableTable extends Vue {
     }
   }
 
-  addFocus (addingX: number, addingY: number) {
-    const currentCell = Vue.prototype.$currentCell
-    if (currentCell && !currentCell.editing) {
-      const x = currentCell.columnIndex + addingX
-      const y = currentCell.rowIndex + addingY
-      if (this.$children[y] && this.$children[y].$children[x]) {
-        currentCell.focused = false
-        Vue.prototype.$currentCell = this.$children[y].$children[x]
-        Vue.prototype.$currentCell.focused = true
-        Vue.prototype.$currentCell.$el.scrollIntoView({
-          block: 'nearest',
-          inline: 'nearest',
-        })
-        Vue.prototype.$currentCell.focus()
+  setFocus (x: number, y: number) {
+    if (Vue.prototype.$currentCell && this.$children[y] && this.$children[y].$children[x]) {
+      Vue.prototype.$currentCell.editing = false
+      Vue.prototype.$currentCell.focused = false
+      Vue.prototype.$currentCell = this.$children[y].$children[x]
+      Vue.prototype.$currentCell.focused = true
+      Vue.prototype.$currentCell.$el.scrollIntoView({
+        block: 'nearest',
+        inline: 'nearest',
+      })
+      Vue.prototype.$currentCell.focus()
+    }
+  }
+
+  setFocusToTop () {
+    if (Vue.prototype.$currentCell) {
+      this.setFocus(Vue.prototype.$currentCell.columnIndex, 0)
+    }
+  }
+
+  setFocusToRight () {
+    if (Vue.prototype.$currentCell) {
+      const y = Vue.prototype.$currentCell.rowIndex
+      if (this.$children[y]) {
+        this.setFocus(this.$children[y].$children.length - 1, y)
       }
+    }
+  }
+
+  setFocusToBottom () {
+    if (Vue.prototype.$currentCell) {
+      this.setFocus(Vue.prototype.$currentCell.columnIndex, this.$children.length - 1)
+    }
+  }
+
+  setFocusToLeft () {
+    if (Vue.prototype.$currentCell) {
+      this.setFocus(0, Vue.prototype.$currentCell.rowIndex)
+    }
+  }
+
+  addFocus (addingX: number, addingY: number) {
+    if (Vue.prototype.$currentCell) {
+      const x = Vue.prototype.$currentCell.columnIndex + addingX
+      const y = Vue.prototype.$currentCell.rowIndex + addingY
+      this.setFocus(x, y)
     }
   }
 }
