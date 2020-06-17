@@ -95,6 +95,10 @@ export default class EditableTableView extends Vue {
       ],
       disabled: false,
       numberOfLines: true,
+      focus: {
+        x: 0,
+        y: 0,
+      },
     }
   }
 

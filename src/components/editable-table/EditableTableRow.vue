@@ -9,6 +9,9 @@
       :row-index="rowIndex"
       :column-index="columnIndex"
       :disabled="disabled"
+      :is-last-row="isLastRow"
+      :is-last-column="columnIndex === columns.length - 1"
+      @lastCellLoaded.once="$emit('lastCellLoaded')"
     />
   </tr>
 </template>
@@ -37,5 +40,8 @@ export default class EditableTableRow extends Vue {
 
   @Prop({ required: true })
   disabled?: boolean
+
+  @Prop({ required: true })
+  isLastRow?: boolean
 }
 </script>

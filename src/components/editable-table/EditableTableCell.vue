@@ -139,9 +139,15 @@ export default class EditableTableCell extends Vue {
   @Prop({ required: true })
   disabled?: boolean
 
-  focused = false
+  @Prop({ required: true })
+  isLastRow?: boolean
+
+  @Prop({ required: true })
+  isLastColumn?: boolean
 
   editing = false
+
+  focused = false
 
   get currentValueType (): string {
     const cell = this.cell
@@ -260,6 +266,12 @@ export default class EditableTableCell extends Vue {
       return regulation[name]
     }
     return null
+  }
+
+  mounted () {
+    if (this.isLastRow && this.isLastColumn) {
+      this.$emit('lastCellLoaded')
+    }
   }
 
   // TODO: 要リファクタリング

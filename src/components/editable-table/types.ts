@@ -4,6 +4,7 @@ export interface TEditableTable {
   columnRegulations?: any;
   numberOfLines?: boolean;
   disabled?: boolean;
+  focus?: any;
 }
 
 export interface TEditableTableButtonParams {

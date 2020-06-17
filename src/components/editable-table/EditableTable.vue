@@ -26,6 +26,8 @@
           :row-index="bodyRowIndex"
           :number-of-lines="numberOfLines"
           :disabled="disabled"
+          :is-last-row="bodyRowIndex === bodies.length - 1"
+          @lastCellLoaded.once="onLastCellLoaded"
         />
       </tbody>
     </table>
@@ -57,8 +59,20 @@ export default class EditableTable extends Vue {
   @Prop({ required: false, default: false })
   disabled?: boolean
 
+  @Prop({ required: false, default: () => ({ x: 0, y: 0 }) })
+  focus?: any
+
+  lastCellLoaded = false
+
   mounted () {
     window.addEventListener('keydown', this.onKeyDown, false)
+  }
+
+  onLastCellLoaded () {
+    if (!this.lastCellLoaded) {
+      this.lastCellLoaded = true
+      this.setFocus(this.focus.x, this.focus.y)
+    }
   }
 
   onKeyDown (event: KeyboardEvent) {
@@ -150,9 +164,11 @@ export default class EditableTable extends Vue {
   }
 
   setFocus (x: number, y: number) {
-    if (Vue.prototype.$currentCell && this.$children[y] && this.$children[y].$children[x]) {
-      Vue.prototype.$currentCell.editing = false
-      Vue.prototype.$currentCell.focused = false
+    if (this.$children[y] && this.$children[y].$children[x]) {
+      if (Vue.prototype.$currentCell) {
+        Vue.prototype.$currentCell.editing = false
+        Vue.prototype.$currentCell.focused = false
+      }
       Vue.prototype.$currentCell = this.$children[y].$children[x]
       Vue.prototype.$currentCell.focused = true
       Vue.prototype.$currentCell.$el.scrollIntoView({
