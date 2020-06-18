@@ -172,8 +172,9 @@ export default class EditableTable extends Vue {
       Vue.prototype.$currentCell = this.$children[y].$children[x]
       Vue.prototype.$currentCell.focused = true
       Vue.prototype.$currentCell.$el.scrollIntoView({
-        block: 'nearest',
-        inline: 'nearest',
+        // WANT: `nearest` としたいが、ヘッダーに隠れてしまうため `center` としている
+        block: 'center',
+        inline: 'center',
       })
       Vue.prototype.$currentCell.focus()
     }

@@ -16,6 +16,10 @@
       margin: 0 0.25em 0 0;
     }
 
+    [data-is-disabled="true"] & > span {
+      opacity: 0.5;
+    }
+
     [data-is-disabled="false"] &,
     & > input:not([disabled="disabled"]) {
       cursor: pointer;

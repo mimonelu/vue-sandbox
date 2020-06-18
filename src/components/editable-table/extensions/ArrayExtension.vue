@@ -3,13 +3,16 @@
     <label
       v-for="option, optionIndex in options"
       :key="`option__${optionIndex}`"
-    ><input
+    >
+      <input
         v-model="cell.value"
         tabindex="-1"
         type="checkbox"
         :value="option.value"
         :disabled="disabled"
-      />{{ option.label }}</label>
+      />
+      <span>{{ option.label }}</span>
+    </label>
   </div>
 </template>
 

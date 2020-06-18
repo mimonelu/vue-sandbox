@@ -1,5 +1,8 @@
 &--link {
-  padding: 0.25em 0.5em;
+  padding: 0.5em;
+  [data-is-disabled="true"] & {
+    opacity: 0.5;
+  }
 
   & > a {
     color: var(--editable-table-accent-color);

@@ -10,7 +10,8 @@
         type="radio"
         :value="option.value"
         :disabled="disabled"
-      />{{ option.label }}
+      />
+      <span>{{ option.label }}</span>
     </label>
   </div>
 </template>
