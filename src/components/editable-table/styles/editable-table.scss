@@ -27,6 +27,7 @@
       & > tr {
         & > th,
         & > td {
+          background-clip: padding-box;
           border: 1px solid rgba(var(--editable-table-border-color), 1.0);
           height: 1em; // NOTICE: テーブルセルの height で % 指定を有効にする
           user-select: none;
