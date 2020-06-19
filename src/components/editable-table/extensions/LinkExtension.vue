@@ -6,7 +6,9 @@
       :href="href"
       :target="target"
       class="editable-table__focusable-target"
+      ref="link"
       tabindex="-1"
+      @keydown.space.prevent="onKeyDownSpace"
     >{{ label || href }}</a>
   </div>
 </template>
@@ -27,5 +29,9 @@ export default class ButtonExtension extends Vue {
 
   @Prop({ required: true })
   disabled?: boolean
+
+  onKeyDownSpace () {
+    (this.$refs.link as HTMLLinkElement).click()
+  }
 }
 </script>

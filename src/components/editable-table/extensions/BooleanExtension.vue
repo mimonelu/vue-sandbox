@@ -6,6 +6,7 @@
       tabindex="-1"
       type="checkbox"
       :disabled="disabled"
+      @keydown.enter="onKeyDownEnter"
     />
   </label>
 </template>
@@ -20,5 +21,9 @@ export default class ButtonExtension extends Vue {
 
   @Prop({ required: true })
   disabled?: boolean
+
+  onKeyDownEnter () {
+    this.cell.value = !this.cell.value
+  }
 }
 </script>

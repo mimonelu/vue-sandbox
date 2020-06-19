@@ -290,14 +290,16 @@ export default class EditableTableCell extends Vue {
   }
 
   onClick () {
-    const currentCell = Vue.prototype.$currentCell
-    if (currentCell && currentCell !== this) {
-      currentCell.focused = false
-      currentCell.editing = false
+    if (!this.focused) {
+      const currentCell = Vue.prototype.$currentCell
+      if (currentCell && currentCell !== this) {
+        currentCell.focused = false
+        currentCell.editing = false
+      }
+      Vue.prototype.$currentCell = this
+      this.focused = true
+      this.focus()
     }
-    Vue.prototype.$currentCell = this
-    this.focused = true
-    this.focus()
   }
 
   onDoubleClick () {

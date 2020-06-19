@@ -28,11 +28,12 @@ export default class TextExtension extends Vue {
 
   onFocus () {
     (this.$refs.textarea as HTMLInputElement).select()
+    this.onInput()
   }
 
-  onInput ($event: Event) {
-    if ($event.target) {
-      const target = $event.target as HTMLElement
+  onInput () {
+    const target = this.$refs.textarea as HTMLInputElement
+    if (target) {
       target.style.width = 'auto'
       target.style.height = 'auto'
       target.style.width = `${target.scrollWidth}px`

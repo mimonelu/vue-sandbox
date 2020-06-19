@@ -35,11 +35,12 @@ export default class StringExtension extends Vue {
 
   onFocus () {
     (this.$refs.input as HTMLInputElement).select()
+    this.onInput()
   }
 
-  onInput ($event: Event) {
-    if ((this.type === 'number' || this.type === 'string') && $event.target) {
-      const target = $event.target as HTMLElement
+  onInput () {
+    const target = this.$refs.input as HTMLInputElement
+    if (target) {
       target.style.width = 'auto'
       target.style.width = `${target.scrollWidth}px`
     }
