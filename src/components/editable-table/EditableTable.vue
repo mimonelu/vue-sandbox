@@ -1,5 +1,8 @@
 <template>
-  <div class="editable-table">
+  <div
+    class="editable-table"
+    :data-is-focused="focused"
+  >
     <table>
       <thead v-if="headers.length > 0">
         <tr
@@ -62,9 +65,12 @@ export default class EditableTable extends Vue {
   @Prop({ required: false, default: () => ({ x: 0, y: 0 }) })
   focus?: any
 
+  focused = false
+
   lastCellLoaded = false
 
   mounted () {
+    window.addEventListener('click', this.onClick, false)
     window.addEventListener('keydown', this.onKeyDown, false)
   }
 
@@ -75,7 +81,16 @@ export default class EditableTable extends Vue {
     }
   }
 
+  onClick (event: MouseEvent) {
+    const target = event.target as HTMLElement
+    const closestElement = target.closest('.editable-table')
+    this.focused = closestElement === this.$el
+  }
+
   onKeyDown (event: KeyboardEvent) {
+    if (!this.focused) {
+      return
+    }
     const currentCell = Vue.prototype.$currentCell
     const editing = !currentCell || currentCell.editing
     if (!event.isComposing) {
@@ -172,7 +187,8 @@ export default class EditableTable extends Vue {
       Vue.prototype.$currentCell = this.$children[y].$children[x]
       Vue.prototype.$currentCell.focused = true
       Vue.prototype.$currentCell.$el.scrollIntoView({
-        // WANT: `nearest` としたいが、ヘッダーに隠れてしまうため `center` としている
+        // WANT: 本来は `nearest` の挙動が望ましいが、ヘッダーに隠れてしまうため `center` としている
+        // WANT: Edge では `scrollIntoViewOptions` は解釈しない。 `alignToTop` のみ解釈するが、挙動がおかしい
         block: 'center',
         inline: 'center',
       })

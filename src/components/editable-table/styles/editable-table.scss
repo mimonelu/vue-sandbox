@@ -15,12 +15,17 @@
   --editable-table-notice-color: 255, 0, 0;
   --editable-table-border-color: 192, 192, 192;
 
+  outline: 3px solid transparent;
   color: rgba(var(--editable-table-fg-color), 1.0);
   font-family: var(--editable-table-font-family);
   font-size: 1rem;
   -moz-osx-font-smoothing: grayscale;
   -webkit-font-smoothing: antialiased;
   overflow: scroll;
+  position: relative;
+  &[data-is-focused="true"] {
+    outline-color: rgba(var(--editable-table-accent-color), 1.0);
+  }
 
   &,
   *,
@@ -33,6 +38,7 @@
 
   table {
     border-spacing: 0;
+    width: 100%;
   }
 
   th,
@@ -49,7 +55,7 @@
     background-color: rgba(var(--editable-table-header-color), 1.0);
     padding: 0 0.5em;
     position: sticky;
-    white-space: nowrap;
+    white-space: pre;
   }
   thead th {
     top: 0;

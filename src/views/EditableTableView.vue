@@ -1,6 +1,7 @@
 <template>
   <div class="editable-table-view">
-    <editable-table v-bind="editableTableProps" />
+    <editable-table v-bind="editableTableProps1" />
+    <editable-table v-bind="editableTableProps2" />
     <button @click="change">Change</button>
   </div>
 </template>
@@ -18,7 +19,9 @@ const irandom = (min: number, max: number) => Math.floor(Math.random() * (max - 
   },
 })
 export default class EditableTableView extends Vue {
-  editableTableProps: TEditableTable = {}
+  editableTableProps1: TEditableTable = {}
+
+  editableTableProps2: TEditableTable = {}
 
   serialNumber = 0
 
@@ -49,11 +52,11 @@ export default class EditableTableView extends Vue {
   ]
 
   mounted () {
-    this.editableTableProps = {
+    this.editableTableProps1 = {
       headers: [
         [
           { value: 'Check', attrs: { rowspan: 2 } },
-          { value: 'Primitives', attrs: { colspan: 6 } },
+          { value: 'Primitives', attrs: { colspan: 4 } },
           { value: 'Filter\nDemo', attrs: { rowspan: 2 } },
           { value: 'Extensions', attrs: { colspan: 5 } },
           { value: 'Controls', attrs: { colspan: 3 } },
@@ -61,9 +64,7 @@ export default class EditableTableView extends Vue {
           { value: 'Boolean' },
           { value: 'Number' },
           { value: 'String' },
-          { value: 'Other string' },
           { value: 'Multiline string' },
-          { value: 'Array' },
           { value: 'Link' },
           { value: 'Button' },
           { value: 'Radio' },
@@ -80,9 +81,7 @@ export default class EditableTableView extends Vue {
         { type: 'boolean' },
         { type: 'number', disabled: true, rule (value: any) { return value <= 50 } },
         { type: 'string', required: true },
-        null,
         { type: 'string', multiline: true },
-        { type: 'array', options: [ { label: 'No.1', value: 1 }, { label: 'No.2', value: 2 }, { label: 'No.3', value: 3 } ] },
         { type: 'number', filter: this.filterSample },
         { extension: { type: 'link', label: 'Open URL', target: '_blank' } },
         { extension: { type: 'button', label: 'Click me!', callback (params: TEditableTableButtonParams) { alert(`${params.cell.value} This cell is (${params.row}, ${params.column}).`) } } },
@@ -100,6 +99,34 @@ export default class EditableTableView extends Vue {
         y: 0,
       },
     }
+    this.editableTableProps2 = {
+      headers: [
+        [
+          { value: 'Other string' },
+          { value: 'Array' },
+          { value: 'Radio' },
+        ],
+      ],
+      bodies: Array(100).fill(0).map((item: any, index: number) => ([
+        {
+          type: this.otherStringTypes[index % this.otherStringTypes.length],
+          value: this.otherStringValues[index % this.otherStringValues.length],
+        },
+        { value: [ 1, 2, 3 ].sort(() => Math.random() - 0.5).splice(irandom(0, 3)) },
+        { value: irandom(1, 3) },
+      ])),
+      columnRegulations: [
+        { type: 'string', required: true },
+        { type: 'array', options: [ { label: 'No.1', value: 1 }, { label: 'No.2', value: 2 }, { label: 'No.3', value: 3 } ] },
+        { type: 'number', extension: { type: 'radio', options: [ { label: 'No.1', value: 1 }, { label: 'No.2', value: 2 }, { label: 'No.3', value: 3 } ] } },
+      ],
+      disabled: false,
+      numberOfLines: true,
+      focus: {
+        x: 0,
+        y: 0,
+      },
+    }
   }
 
   makeSampleRow (): any {
@@ -108,12 +135,7 @@ export default class EditableTableView extends Vue {
       { value: irandom(0, 1) === 1 },
       { value: this.serialNumber },
       { value: [ ...Array(8).keys() ].map(() => Math.floor(Math.random() * 36).toString(36)).join('') },
-      {
-        type: this.otherStringTypes[this.serialNumber % this.otherStringTypes.length],
-        value: this.otherStringValues[this.serialNumber % this.otherStringValues.length],
-      },
       { value: 'Hello, world!' },
-      { value: [ 1, 2, 3 ].sort(() => Math.random() - 0.5).splice(irandom(0, 3)) },
       { value: irandom(0, 65535) },
       { value: `https://google.com/search?q=${this.serialNumber}` },
       { value: 'Hello, EditableTable!' },
@@ -129,7 +151,7 @@ export default class EditableTableView extends Vue {
   }
 
   showData (params: TEditableTableButtonParams) {
-    alert(JSON.stringify(this.editableTableProps.bodies[params.row]))
+    alert(JSON.stringify(this.editableTableProps1.bodies[params.row]))
   }
 
   filterSample (value: any): string {
@@ -137,26 +159,29 @@ export default class EditableTableView extends Vue {
   }
 
   remove (params: TEditableTableButtonParams) {
-    this.editableTableProps.bodies.splice(params.row, 1)
+    this.editableTableProps1.bodies.splice(params.row, 1)
   }
 
   addUp (params: TEditableTableButtonParams) {
-    this.editableTableProps.bodies.splice(params.row, 0, this.makeSampleRow())
+    this.editableTableProps1.bodies.splice(params.row, 0, this.makeSampleRow())
   }
 
   addDown (params: TEditableTableButtonParams) {
-    this.editableTableProps.bodies.splice(params.row + 1, 0, this.makeSampleRow())
+    this.editableTableProps1.bodies.splice(params.row + 1, 0, this.makeSampleRow())
   }
 
   change () {
-    this.editableTableProps.headers[0][0].value = '???'
+    this.editableTableProps1.headers[0][0].value = '???'
   }
 }
 </script>
 
 <style lang="scss" scoped>
 .editable-table-view {
+  margin: 1em;
+
   .editable-table {
+    margin: 1em 0;
     height: 320px;
   }
 }
