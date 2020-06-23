@@ -4,6 +4,9 @@ export interface TEditableTable {
   columnRegulations?: any;
   numberOfLines?: boolean;
   disabled?: boolean;
+  floatingThead?: boolean;
+  floatingTbody?: boolean;
+  floatingColumns?: number;
   focus?: any;
 }
 

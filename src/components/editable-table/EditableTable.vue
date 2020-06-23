@@ -1,7 +1,9 @@
 <template>
   <div
     class="editable-table"
-    :data-is-focused="focused"
+    :data-is-floating-thead="'' + floatingThead"
+    :data-is-floating-tbody="'' + floatingTbody"
+    :data-is-focused="'' + focused"
   >
     <table>
       <thead v-if="headers.length > 0">
@@ -9,14 +11,12 @@
           v-for="headerRow, headerRowIndex of headers"
           :key="`header__${headerRowIndex}`"
         >
-          <th
-            v-if="numberOfLines && headerRowIndex === 0"
-            :rowspan="headers.length"
-          />
+          <th />
           <th
             v-for="headerCell, headerCellIndex of headerRow"
             :key="`header__${headerRowIndex}__${headerCellIndex}`"
             v-bind="headerCell.attrs"
+            :data-is-floating="headerCellIndex <= floatingColumns - 1"
           >{{ headerCell.value }}</th>
         </tr>
       </thead>
@@ -29,6 +29,7 @@
           :row-index="bodyRowIndex"
           :number-of-lines="numberOfLines"
           :disabled="disabled"
+          :floatingColumns="floatingColumns"
           :is-last-row="bodyRowIndex === bodies.length - 1"
           @lastCellLoaded.once="onLastCellLoaded"
         />
@@ -56,11 +57,20 @@ export default class EditableTable extends Vue {
   @Prop({ required: false, default: () => ([]) })
   columnRegulations: any
 
-  @Prop({ required: false, default: true })
-  numberOfLines?: boolean
-
   @Prop({ required: false, default: false })
   disabled?: boolean
+
+  @Prop({ required: false, default: true })
+  floatingThead?: boolean
+
+  @Prop({ required: false, default: true })
+  floatingTbody?: boolean
+
+  @Prop({ required: false, default: 0 })
+  floatingColumns?: number
+
+  @Prop({ required: false, default: true })
+  numberOfLines?: boolean
 
   @Prop({ required: false, default: () => ({ x: 0, y: 0 }) })
   focus?: any

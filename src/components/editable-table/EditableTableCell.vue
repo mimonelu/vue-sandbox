@@ -7,6 +7,7 @@
     :data-is-empty="'' + isEmpty"
     :data-is-ruled="'' + isRuled"
     :data-is-disabled="'' + isDisabled"
+    :data-is-floating="'' + floating"
     :data-is-focused="'' + focused"
     :data-is-editing="'' + editing"
     @click="onClick"
@@ -145,6 +146,9 @@ export default class EditableTableCell extends Vue {
 
   @Prop({ required: true })
   disabled?: boolean
+
+  @Prop({ required: true })
+  floating?: boolean
 
   @Prop({ required: true })
   isLastRow?: boolean

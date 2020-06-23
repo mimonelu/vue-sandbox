@@ -55,12 +55,13 @@ export default class EditableTableView extends Vue {
     this.editableTableProps1 = {
       headers: [
         [
-          { value: 'Check', attrs: { rowspan: 2 } },
+          { value: 'Check' },
           { value: 'Primitives', attrs: { colspan: 5 } },
           { value: 'Filter\nDemo', attrs: { rowspan: 2 } },
           { value: 'Extensions', attrs: { colspan: 5 } },
           { value: 'Controls', attrs: { colspan: 3 } },
         ], [
+          { value: '' },
           { value: 'Boolean' },
           { value: 'Number' },
           { value: 'String' },
@@ -95,6 +96,9 @@ export default class EditableTableView extends Vue {
         { extension: { type: 'button', label: 'Add down', callback: this.addDown } },
       ],
       disabled: false,
+      floatingThead: true,
+      floatingTbody: true,
+      floatingColumns: 1,
       numberOfLines: true,
       focus: {
         x: 0,

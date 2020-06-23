@@ -54,42 +54,53 @@
   th {
     background-color: rgba(var(--editable-table-header-color), 1.0);
     padding: 0 0.5em;
-    position: sticky;
     white-space: pre;
   }
   thead th {
     top: 0;
     z-index: 2;
   }
+  &[data-is-floating-thead="true"] thead th {
+    position: sticky;
+  }
   thead tr:first-child th {
     border-top: 1px solid rgba(var(--editable-table-border-color), 1.0);
   }
-  thead tr:first-child th:first-child,
+  thead tr th:first-child,
   tbody th {
     border-left: 1px solid rgba(var(--editable-table-border-color), 1.0);
   }
-  thead tr:first-child th:first-child {
+  thead tr th:first-child {
     left: 0;
     z-index: 3;
+  }
+  thead tr:not(:last-child) th:first-child {
+    border-bottom-color: rgba(var(--editable-table-header-color), 1.0);
+  }
+  &[data-is-floating-tbody="true"] thead tr th:first-child {
+    position: sticky;
+  }
+  &[data-is-floating-thead="true"][data-is-floating-tbody="false"] thead tr th:first-child {
+    z-index: 2;
+  }
+  &[data-is-floating-thead="false"][data-is-floating-tbody="true"] thead tr th:first-child {
+    z-index: 1;
   }
   tbody th {
     left: 0;
     z-index: 1;
   }
-
-  // WANT: 諸々の理由から thead th の高さを固定している
-  $editable-table--row-height: 2.5em;
-  thead th {
-    height: $editable-table--row-height;
-  }
-  thead tr:nth-child(2) th {
-    top: $editable-table--row-height;
+  &[data-is-floating-tbody="true"] tbody th {
+    position: sticky;
   }
 
   td {
     background-color: rgba(var(--editable-table-bg-color), 1.0);
     position: relative;
     white-space: pre;
+    &[data-is-floating="true"] {
+      position: sticky;
+    }
     &[data-required-type="boolean"] {
       text-align: center;
     }
@@ -136,6 +147,37 @@
     }
     &[data-is-editing="true"] {
       background-color: rgba(var(--editable-table-accent-color), 0.125);
+    }
+  }
+
+  // WANT: 諸々の理由から thead th の高さを固定している
+  $editable-table--row-height: 2.5em;
+  thead th {
+    height: $editable-table--row-height;
+  }
+  thead tr:nth-child(2) th {
+    top: $editable-table--row-height;
+  }
+
+  // WANT: 諸々の理由から tbody td の幅を固定している
+  $editable-table--column-width: 6em;
+  tbody th {
+    min-width: $editable-table--column-width;
+  }
+  thead th[data-is-floating="true"],
+  tbody td[data-is-floating="true"] {
+    min-width: $editable-table--column-width;
+  }
+  thead th[data-is-floating="true"] {
+    z-index: 4;
+  }
+  tbody td[data-is-floating="true"] {
+    z-index: 1;
+  }
+  @for $i from 2 through 10 {
+    thead th[data-is-floating="true"]:nth-child(#{$i}),
+    tbody td[data-is-floating="true"]:nth-child(#{$i}) {
+      left: $editable-table--column-width * ($i - 1);
     }
   }
 
