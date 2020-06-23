@@ -188,7 +188,6 @@ export default class EditableTable extends Vue {
       Vue.prototype.$currentCell.focused = true
       Vue.prototype.$currentCell.$el.scrollIntoView({
         // WANT: 本来は `nearest` の挙動が望ましいが、ヘッダーに隠れてしまうため `center` としている
-        // WANT: Edge では `scrollIntoViewOptions` は解釈しない。 `alignToTop` のみ解釈するが、挙動がおかしい
         block: 'center',
         inline: 'center',
       })

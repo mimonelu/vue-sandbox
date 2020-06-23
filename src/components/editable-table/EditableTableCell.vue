@@ -12,8 +12,13 @@
     @click="onClick"
     @dblclick="onDoubleClick"
   >
+    <array-extension
+      v-if="requiredValueType === 'array' && !extension"
+      :cell="cell"
+      :suffix="getProp('suffix')"
+    />
     <boolean-extension
-      v-if="requiredValueType === 'boolean'"
+      v-else-if="requiredValueType === 'boolean'"
       :cell="cell"
       :disabled="isDisabled"
     />
@@ -23,9 +28,9 @@
       :disabled="isDisabled"
       @click="extension.callback({ cell, row: rowIndex, column: columnIndex })"
     />
-    <array-extension
-      v-else-if="requiredValueType === 'array'"
-      :options="getProp('options')"
+    <checkbox-extension
+      v-else-if="extension && extension.type === 'checkbox'"
+      :options="extension.options"
       :cell="cell"
       :disabled="isDisabled"
     />
@@ -87,6 +92,7 @@ import { Component, Prop, Vue } from 'vue-property-decorator'
 import ArrayExtension from '@/components/editable-table/extensions/ArrayExtension.vue'
 import BooleanExtension from '@/components/editable-table/extensions/BooleanExtension.vue'
 import ButtonExtension from '@/components/editable-table/extensions/ButtonExtension.vue'
+import CheckboxExtension from '@/components/editable-table/extensions/CheckboxExtension.vue'
 import LinkExtension from '@/components/editable-table/extensions/LinkExtension.vue'
 import ListExtension from '@/components/editable-table/extensions/ListExtension.vue'
 import NumberExtension from '@/components/editable-table/extensions/NumberExtension.vue'
@@ -114,6 +120,7 @@ const stringTypes: TObject = {
     ArrayExtension,
     BooleanExtension,
     ButtonExtension,
+    CheckboxExtension,
     LinkExtension,
     ListExtension,
     NumberExtension,

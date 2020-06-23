@@ -56,7 +56,7 @@ export default class EditableTableView extends Vue {
       headers: [
         [
           { value: 'Check', attrs: { rowspan: 2 } },
-          { value: 'Primitives', attrs: { colspan: 4 } },
+          { value: 'Primitives', attrs: { colspan: 5 } },
           { value: 'Filter\nDemo', attrs: { rowspan: 2 } },
           { value: 'Extensions', attrs: { colspan: 5 } },
           { value: 'Controls', attrs: { colspan: 3 } },
@@ -65,6 +65,7 @@ export default class EditableTableView extends Vue {
           { value: 'Number' },
           { value: 'String' },
           { value: 'Multiline string' },
+          { value: 'Array' },
           { value: 'Link' },
           { value: 'Button' },
           { value: 'Radio' },
@@ -82,6 +83,7 @@ export default class EditableTableView extends Vue {
         { type: 'number', disabled: true, rule (value: any) { return value <= 50 } },
         { type: 'string', required: true },
         { type: 'string', multiline: true },
+        { type: 'array', suffix: '件' },
         { type: 'number', filter: this.filterSample },
         { extension: { type: 'link', label: 'Open URL', target: '_blank' } },
         { extension: { type: 'button', label: 'Click me!', callback (params: TEditableTableButtonParams) { alert(`${params.cell.value} This cell is (${params.row}, ${params.column}).`) } } },
@@ -103,7 +105,7 @@ export default class EditableTableView extends Vue {
       headers: [
         [
           { value: 'Other string' },
-          { value: 'Array' },
+          { value: 'Checkbox' },
           { value: 'Radio' },
         ],
       ],
@@ -117,7 +119,7 @@ export default class EditableTableView extends Vue {
       ])),
       columnRegulations: [
         { type: 'string', required: true },
-        { type: 'array', options: [ { label: 'No.1', value: 1 }, { label: 'No.2', value: 2 }, { label: 'No.3', value: 3 } ] },
+        { type: 'array', extension: { type: 'checkbox', options: [ { label: 'No.1', value: 1 }, { label: 'No.2', value: 2 }, { label: 'No.3', value: 3 } ] } },
         { type: 'number', extension: { type: 'radio', options: [ { label: 'No.1', value: 1 }, { label: 'No.2', value: 2 }, { label: 'No.3', value: 3 } ] } },
       ],
       disabled: false,
@@ -136,6 +138,7 @@ export default class EditableTableView extends Vue {
       { value: this.serialNumber },
       { value: [ ...Array(8).keys() ].map(() => Math.floor(Math.random() * 36).toString(36)).join('') },
       { value: 'Hello, world!' },
+      { value: [ 0, 1, 2 ] },
       { value: irandom(0, 65535) },
       { value: `https://google.com/search?q=${this.serialNumber}` },
       { value: 'Hello, EditableTable!' },
