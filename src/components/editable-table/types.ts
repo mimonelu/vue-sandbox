@@ -8,6 +8,7 @@ export interface TEditableTable {
   floatingTbody?: boolean;
   floatingColumns?: number;
   focus?: any;
+  focused?: boolean;
 }
 
 export interface TEditableTableButtonParams {

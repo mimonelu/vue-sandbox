@@ -3,7 +3,7 @@
     class="editable-table"
     :data-is-floating-thead="'' + floatingThead"
     :data-is-floating-tbody="'' + floatingTbody"
-    :data-is-focused="'' + focused"
+    :data-is-focused="'' + pseudoFocused"
   >
     <table>
       <thead v-if="headers.length > 0">
@@ -31,6 +31,7 @@
           :disabled="disabled"
           :floatingColumns="floatingColumns"
           :is-last-row="bodyRowIndex === bodies.length - 1"
+          @cellClicked="onCellClicked"
           @lastCellLoaded.once="onLastCellLoaded"
         />
       </tbody>
@@ -75,7 +76,10 @@ export default class EditableTable extends Vue {
   @Prop({ required: false, default: () => ({ x: 0, y: 0 }) })
   focus?: any
 
-  focused = false
+  @Prop({ required: false, default: false })
+  focused?: boolean
+
+  pseudoFocused = this.focused
 
   lastCellLoaded = false
 
@@ -84,21 +88,29 @@ export default class EditableTable extends Vue {
     window.addEventListener('keydown', this.onKeyDown, false)
   }
 
+  onCellClicked (params: any) {
+    this.setFocus(params.x, params.y)
+  }
+
   onLastCellLoaded () {
     if (!this.lastCellLoaded) {
       this.lastCellLoaded = true
-      this.setFocus(this.focus.x, this.focus.y)
+      if (this.focused) {
+        this.setFocus(this.focus.x, this.focus.y)
+      }
     }
   }
 
   onClick (event: MouseEvent) {
     const target = event.target as HTMLElement
-    const closestElement = target.closest('.editable-table')
-    this.focused = closestElement === this.$el
+    this.pseudoFocused = target.closest('.editable-table') === this.$el
+    if (this.pseudoFocused && target.closest('td') === null) {
+      this.setFocus(this.focus.x, this.focus.y)
+    }
   }
 
   onKeyDown (event: KeyboardEvent) {
-    if (!this.focused) {
+    if (!this.pseudoFocused) {
       return
     }
     const currentCell = Vue.prototype.$currentCell
@@ -201,7 +213,15 @@ export default class EditableTable extends Vue {
         block: 'center',
         inline: 'center',
       })
-      Vue.prototype.$currentCell.focus()
+      if (document.activeElement) {
+        (document.activeElement as HTMLInputElement).blur()
+      }
+      const focusableTarget = Vue.prototype.$currentCell.$el.querySelector('.editable-table__focusable-target') as HTMLInputElement
+      if (focusableTarget) {
+        focusableTarget.focus()
+      }
+      this.focus.x = x
+      this.focus.y = y
     }
   }
 

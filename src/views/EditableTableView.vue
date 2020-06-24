@@ -104,6 +104,7 @@ export default class EditableTableView extends Vue {
         x: 0,
         y: 0,
       },
+      focused: true,
     }
     this.editableTableProps2 = {
       headers: [
@@ -126,12 +127,6 @@ export default class EditableTableView extends Vue {
         { type: 'array', extension: { type: 'checkbox', options: [ { label: 'No.1', value: 1 }, { label: 'No.2', value: 2 }, { label: 'No.3', value: 3 } ] } },
         { type: 'number', extension: { type: 'radio', options: [ { label: 'No.1', value: 1 }, { label: 'No.2', value: 2 }, { label: 'No.3', value: 3 } ] } },
       ],
-      disabled: false,
-      numberOfLines: true,
-      focus: {
-        x: 0,
-        y: 0,
-      },
     }
   }
 

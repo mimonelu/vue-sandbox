@@ -12,13 +12,14 @@
       :floating="columnIndex <= floatingColumns - 1"
       :is-last-row="isLastRow"
       :is-last-column="columnIndex === columns.length - 1"
+      @cellClicked="onCellClicked"
       @lastCellLoaded.once="$emit('lastCellLoaded')"
     />
   </tr>
 </template>
 
 <script lang="ts">
-import { Component, Prop, Vue } from 'vue-property-decorator'
+import { Component, Emit, Prop, Vue } from 'vue-property-decorator'
 import EditableTableCell from '@/components/editable-table/EditableTableCell.vue'
 
 @Component({
@@ -47,5 +48,13 @@ export default class EditableTableRow extends Vue {
 
   @Prop({ required: true })
   isLastRow?: boolean
+
+  @Emit('cellClicked')
+  onCellClicked (params: any) {
+    return {
+      x: params.x,
+      y: params.y,
+    }
+  }
 }
 </script>
