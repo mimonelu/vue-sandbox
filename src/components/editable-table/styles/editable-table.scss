@@ -6,25 +6,36 @@
   text-align: left;
 }
 
+/*
+  DEVELOP: 各種カラー変数
+  --editable-table-bg-color: #ffffff;
+  --editable-table-fg-color: #202020;
+  --editable-table-header-color: #e0e0e0;
+  --editable-table-accent-color: #0080f0;
+  --editable-table-editing-color: #e0f0ff;
+  --editable-table-notice-color: #f00000;
+  --editable-table-border-color: #c0c0c0;
+ */
 .editable-table {
-  --editable-table-font-family: -apple-system, BlinkMacSystemFont, "Helvetica Neue", "Segoe UI", "Yu Gothic", YuGothic, sans-serif;
-  --editable-table-bg-color: 255, 255, 255;
-  --editable-table-fg-color: 32, 32, 32;
-  --editable-table-header-color: 224, 224, 224;
-  --editable-table-accent-color: 0, 128, 240;
-  --editable-table-notice-color: 255, 0, 0;
-  --editable-table-border-color: 192, 192, 192;
+  --table-font-family: -apple-system, BlinkMacSystemFont, "Helvetica Neue", "Segoe UI", "Yu Gothic", YuGothic, sans-serif;
+  --table-bg-color: var(--editable-table-bg-color, #ffffff);
+  --table-fg-color: var(--editable-table-fg-color, #202020);
+  --table-header-color: var(--editable-table-header-color, #e0e0e0);
+  --table-accent-color: var(--editable-table-accent-color, #0080f0);
+  --table-editing-color: var(--editable-table-editing-color, #e0f0ff);
+  --table-notice-color: var(--editable-table-notice-color, #f00000);
+  --table-border-color: var(--editable-table-border-color, #c0c0c0);
 
   outline: 3px solid transparent;
-  color: rgba(var(--editable-table-fg-color), 1.0);
-  font-family: var(--editable-table-font-family);
+  color: var(--table-fg-color);
+  font-family: var(--table-font-family);
   font-size: 1rem;
   -moz-osx-font-smoothing: grayscale;
   -webkit-font-smoothing: antialiased;
   overflow: scroll;
   position: relative;
   &[data-is-focused="true"] {
-    outline-color: rgba(var(--editable-table-accent-color), 1.0);
+    outline-color: var(--table-accent-color);
   }
 
   &,
@@ -44,15 +55,15 @@
   th,
   td {
     background-clip: padding-box;
-    border-right: 1px solid rgba(var(--editable-table-border-color), 1.0);
-    border-bottom: 1px solid rgba(var(--editable-table-border-color), 1.0);
+    border-right: 1px solid var(--table-border-color);
+    border-bottom: 1px solid var(--table-border-color);
     cursor: default;
     user-select: none;
     vertical-align: middle;
   }
 
   th {
-    background-color: rgba(var(--editable-table-header-color), 1.0);
+    background-color: var(--table-header-color);
     padding: 0 0.5em;
     white-space: pre;
   }
@@ -64,18 +75,18 @@
     position: sticky;
   }
   thead tr:first-child th {
-    border-top: 1px solid rgba(var(--editable-table-border-color), 1.0);
+    border-top: 1px solid var(--table-border-color);
   }
   thead tr th:first-child,
   tbody th {
-    border-left: 1px solid rgba(var(--editable-table-border-color), 1.0);
+    border-left: 1px solid var(--table-border-color);
   }
   thead tr th:first-child {
     left: 0;
     z-index: 3;
   }
   thead tr:not(:last-child) th:first-child {
-    border-bottom-color: rgba(var(--editable-table-header-color), 1.0);
+    border-bottom-color: var(--table-header-color);
   }
   &[data-is-floating-tbody="true"] thead tr th:first-child {
     position: sticky;
@@ -95,7 +106,7 @@
   }
 
   td {
-    background-color: rgba(var(--editable-table-bg-color), 1.0);
+    background-color: var(--table-bg-color);
     position: relative;
     white-space: pre;
     &[data-is-floating="true"] {
@@ -108,8 +119,8 @@
       text-align: right;
     }
     &[data-type-is-valid="false"] {
-      background-color: rgba(var(--editable-table-notice-color), 1.0);
-      color: rgba(var(--editable-table-bg-color), 1.0);
+      background-color: var(--table-notice-color);
+      color: var(--table-bg-color);
 
       &[data-is-editing="false"]::before {
         @extend %editable-table__error-message;
@@ -117,8 +128,8 @@
       }
     }
     &[data-is-required="true"][data-is-empty="true"] {
-      background-color: rgba(var(--editable-table-notice-color), 1.0);
-      color: rgba(var(--editable-table-bg-color), 1.0);
+      background-color: var(--table-notice-color);
+      color: var(--table-bg-color);
 
       &[data-is-editing="false"]::before {
         @extend %editable-table__error-message;
@@ -126,8 +137,8 @@
       }
     }
     &[data-is-ruled="false"] {
-      background-color: rgba(var(--editable-table-notice-color), 1.0);
-      color: rgba(var(--editable-table-bg-color), 1.0);
+      background-color: var(--table-notice-color);
+      color: var(--table-bg-color);
 
       &[data-is-editing="false"]::before {
         @extend %editable-table__error-message;
@@ -135,7 +146,7 @@
       }
     }
     &[data-is-focused="true"]::after {
-      border: 3px solid rgba(var(--editable-table-accent-color), 1.0);
+      border: 3px solid var(--table-accent-color);
       content: "";
       display: block;
       pointer-events: none;
@@ -146,7 +157,7 @@
       height: 100%;
     }
     &[data-is-editing="true"] {
-      background-color: rgba(var(--editable-table-accent-color), 0.125);
+      background-color: var(--table-editing-color);
     }
   }
 
