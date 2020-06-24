@@ -287,7 +287,7 @@ export default class EditableTableCell extends Vue {
 
   // TODO: 要リファクタリング
   canEdit (): boolean {
-    return (!this.extension || this.extension.type === 'select' || this.extension.type === 'list') && this.requiredValueType !== 'boolean' && this.requiredValueType !== 'array'
+    return (!this.extension || this.extension.type === 'select' || this.extension.type === 'list') && this.requiredValueType !== 'array' && this.requiredValueType !== 'boolean'
   }
 
   onClick () {

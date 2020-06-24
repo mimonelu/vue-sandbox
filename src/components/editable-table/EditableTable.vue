@@ -74,7 +74,7 @@ export default class EditableTable extends Vue {
   numberOfLines?: boolean
 
   @Prop({ required: false, default: () => ({ x: 0, y: 0 }) })
-  focus?: any
+  focus: any
 
   @Prop({ required: false, default: false })
   focused?: boolean
