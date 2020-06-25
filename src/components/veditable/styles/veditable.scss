@@ -9,6 +9,7 @@
 /*
   DEVELOP: 各種カラー変数
   --veditable-bg-color: #ffffff;
+  --veditable-bg-even-color: #f8f8f8;
   --veditable-fg-color: #202020;
   --veditable-header-color: #e0e0e0;
   --veditable-accent-color: #0080f0;
@@ -19,6 +20,7 @@
 .veditable {
   --table-font-family: -apple-system, BlinkMacSystemFont, "Helvetica Neue", "Segoe UI", "Yu Gothic", YuGothic, sans-serif;
   --table-bg-color: var(--veditable-bg-color, #ffffff);
+  --table-bg-even-color: var(--veditable-bg-even-color, var(--veditable-bg-color, #f8f8f8));
   --table-fg-color: var(--veditable-fg-color, #202020);
   --table-header-color: var(--veditable-header-color, #e0e0e0);
   --table-accent-color: var(--veditable-accent-color, #0080f0);
@@ -95,59 +97,64 @@
   }
 
   td {
-    background-color: var(--table-bg-color);
     position: relative;
     white-space: pre;
-    &[data-is-floating="true"] {
-      position: sticky;
-    }
-    &[data-required-type="boolean"] {
-      text-align: center;
-    }
-    &[data-required-type="number"] {
-      text-align: right;
-    }
-    &[data-type-is-valid="false"] {
-      background-color: var(--table-notice-color);
-      color: var(--table-bg-color);
+  }
+  tr:nth-child(odd) td {
+    background-color: var(--table-bg-color);
+  }
+  tr:nth-child(even) td {
+    background-color: var(--table-bg-even-color);
+  }
+  tr td[data-is-floating="true"] {
+    position: sticky;
+  }
+  tr td[data-required-type="boolean"] {
+    text-align: center;
+  }
+  tr td[data-required-type="number"] {
+    text-align: right;
+  }
+  tr td[data-type-is-valid="false"] {
+    background-color: var(--table-notice-color);
+    color: var(--table-bg-color);
 
-      &[data-is-editing="false"]::before {
-        @extend %veditable__error-message;
-        content: "正しい値ではありません";
-      }
+    &[data-is-editing="false"]::before {
+      @extend %veditable__error-message;
+      content: "正しい値ではありません";
     }
-    &[data-is-required="true"][data-is-empty="true"] {
-      background-color: var(--table-notice-color);
-      color: var(--table-bg-color);
+  }
+  tr td[data-is-required="true"][data-is-empty="true"] {
+    background-color: var(--table-notice-color);
+    color: var(--table-bg-color);
 
-      &[data-is-editing="false"]::before {
-        @extend %veditable__error-message;
-        content: "入力必須項目です";
-      }
+    &[data-is-editing="false"]::before {
+      @extend %veditable__error-message;
+      content: "入力必須項目です";
     }
-    &[data-is-ruled="false"] {
-      background-color: var(--table-notice-color);
-      color: var(--table-bg-color);
+  }
+  tr td[data-is-ruled="false"] {
+    background-color: var(--table-notice-color);
+    color: var(--table-bg-color);
 
-      &[data-is-editing="false"]::before {
-        @extend %veditable__error-message;
-        content: "正しい値ではありません";
-      }
+    &[data-is-editing="false"]::before {
+      @extend %veditable__error-message;
+      content: "正しい値ではありません";
     }
-    &[data-is-focused="true"]::after {
-      border: 3px solid var(--table-accent-color);
-      content: "";
-      display: block;
-      pointer-events: none;
-      position: absolute;
-      left: 0;
-      top: 0;
-      width: 100%;
-      height: 100%;
-    }
-    &[data-is-editing="true"] {
-      background-color: var(--table-editing-color);
-    }
+  }
+  tr td[data-is-focused="true"]::after {
+    border: 3px solid var(--table-accent-color);
+    content: "";
+    display: block;
+    pointer-events: none;
+    position: absolute;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+  }
+  tr td[data-is-editing="true"] {
+    background-color: var(--table-editing-color);
   }
 
   // WANT: 諸々の理由から thead th の高さを固定している
