@@ -70,7 +70,7 @@ export default class EditableTable extends Vue {
   @Prop({ required: false, default: true })
   floatingThead?: boolean
 
-  @Prop({ required: false, default: 0 })
+  @Prop({ required: false, default: 1 })
   floatingColumns?: number
 
   @Prop({ required: false, default: true })
