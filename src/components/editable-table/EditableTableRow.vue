@@ -1,15 +1,20 @@
 <template>
   <tr>
-    <th v-if="numberOfLines">{{ rowIndex + 1 }}</th>
+    <th
+      v-if="numberOfLines"
+      :data-column="0"
+      :data-is-floating="'' + (floatingColumns > 0)"
+    >{{ rowIndex + 1 }}</th>
     <editable-table-cell
       v-for="cell, columnIndex of columns"
       :key="columnIndex"
+      :data-column="numberOfLines ? columnIndex + 1 : columnIndex"
       :cell="columns[columnIndex]"
       :regulation="columnRegulations[columnIndex]"
       :row-index="rowIndex"
       :column-index="columnIndex"
       :disabled="disabled"
-      :floating="columnIndex <= floatingColumns - 1"
+      :floating="columnIndex < floatingColumns - 1"
       :is-last-row="isLastRow"
       :is-last-column="columnIndex === columns.length - 1"
       @cellClicked="onCellClicked"

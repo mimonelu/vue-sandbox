@@ -77,31 +77,20 @@
   thead tr:first-child th {
     border-top: 1px solid var(--table-border-color);
   }
-  thead tr th:first-child,
+  thead tr &__corner,
   tbody th {
     border-left: 1px solid var(--table-border-color);
   }
-  thead tr th:first-child {
-    left: 0;
+  thead tr &__corner {
     z-index: 3;
   }
-  thead tr:not(:last-child) th:first-child {
+  thead tr:not(:last-child) &__corner {
     border-bottom-color: var(--table-header-color);
   }
-  &[data-is-floating-tbody="true"] thead tr th:first-child {
-    position: sticky;
-  }
-  &[data-is-floating-thead="true"][data-is-floating-tbody="false"] thead tr th:first-child {
+  tbody th {
     z-index: 2;
   }
-  &[data-is-floating-thead="false"][data-is-floating-tbody="true"] thead tr th:first-child {
-    z-index: 1;
-  }
-  tbody th {
-    left: 0;
-    z-index: 1;
-  }
-  &[data-is-floating-tbody="true"] tbody th {
+  &:not([data-floating-columns="0"]) [data-is-floating="true"] {
     position: sticky;
   }
 
@@ -180,15 +169,14 @@
     min-width: $editable-table--column-width;
   }
   thead th[data-is-floating="true"] {
-    z-index: 4;
+    z-index: 3;
   }
   tbody td[data-is-floating="true"] {
     z-index: 1;
   }
-  @for $i from 2 through 10 {
-    thead th[data-is-floating="true"]:nth-child(#{$i}),
-    tbody td[data-is-floating="true"]:nth-child(#{$i}) {
-      left: $editable-table--column-width * ($i - 1);
+  @for $i from 0 through 10 {
+    [data-column="#{$i}"][data-is-floating="true"] {
+      left: $editable-table--column-width * $i;
     }
   }
 

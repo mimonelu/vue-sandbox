@@ -2,7 +2,7 @@
   <div
     class="editable-table"
     :data-is-floating-thead="'' + floatingThead"
-    :data-is-floating-tbody="'' + floatingTbody"
+    :data-floating-columns="floatingColumns"
     :data-is-focused="'' + pseudoFocused"
   >
     <table>
@@ -11,12 +11,18 @@
           v-for="headerRow, headerRowIndex of headers"
           :key="`header__${headerRowIndex}`"
         >
-          <th />
+          <th
+            v-if="numberOfLines"
+            class="editable-table__corner"
+            :data-column="0"
+            :data-is-floating="'' + (floatingColumns > 0)"
+          />
           <th
             v-for="headerCell, headerCellIndex of headerRow"
             :key="`header__${headerRowIndex}__${headerCellIndex}`"
             v-bind="headerCell.attrs"
-            :data-is-floating="headerCellIndex <= floatingColumns - 1"
+            :data-column="numberOfLines ? headerCellIndex + 1 : headerCellIndex"
+            :data-is-floating="headerCellIndex < floatingColumns - 1"
           >{{ headerCell.value }}</th>
         </tr>
       </thead>
@@ -63,9 +69,6 @@ export default class EditableTable extends Vue {
 
   @Prop({ required: false, default: true })
   floatingThead?: boolean
-
-  @Prop({ required: false, default: true })
-  floatingTbody?: boolean
 
   @Prop({ required: false, default: 0 })
   floatingColumns?: number
@@ -208,11 +211,7 @@ export default class EditableTable extends Vue {
       }
       Vue.prototype.$currentCell = this.$children[y].$children[x]
       Vue.prototype.$currentCell.focused = true
-      Vue.prototype.$currentCell.$el.scrollIntoView({
-        // WANT: 本来は `nearest` の挙動が望ましいが、ヘッダーに隠れてしまうため `center` としている
-        block: 'center',
-        inline: 'center',
-      })
+      this.scrollIntoView(Vue.prototype.$currentCell.$el)
       if (document.activeElement) {
         (document.activeElement as HTMLInputElement).blur()
       }
@@ -222,6 +221,36 @@ export default class EditableTable extends Vue {
       }
       this.focus.x = x
       this.focus.y = y
+    }
+  }
+
+  scrollIntoView (target: HTMLElement) {
+    const tbody = this.$el.querySelector('tbody')
+    if (tbody !== null) {
+      const cells = Array.from(tbody.querySelectorAll('tr:first-child  > *'))
+      if (cells) {
+        let stickyWidth = 0
+        cells.some((cell: any) => {
+          const styles = window.getComputedStyle(cell)
+          if (styles.position === 'sticky') {
+            stickyWidth += cell.clientWidth
+            return false
+          }
+          return true
+        })
+        if (target.offsetLeft < this.$el.scrollLeft + stickyWidth) {
+          this.$el.scrollLeft = target.offsetLeft - stickyWidth
+        } else if (target.offsetLeft + target.clientWidth > this.$el.scrollLeft + this.$el.clientWidth) {
+          this.$el.scrollLeft = target.offsetLeft + target.clientWidth - this.$el.clientWidth
+        }
+      }
+      const thead = this.$el.querySelector('thead')
+      const theadHeight = thead !== null ? thead.clientHeight : 0
+      if (target.offsetTop < this.$el.scrollTop + theadHeight) {
+        this.$el.scrollTop = target.offsetTop - theadHeight
+      } else if (target.offsetTop + target.clientHeight > this.$el.scrollTop + this.$el.clientHeight) {
+        this.$el.scrollTop = target.offsetTop + target.clientHeight - this.$el.clientHeight
+      }
     }
   }
 

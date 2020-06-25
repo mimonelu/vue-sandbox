@@ -97,8 +97,7 @@ export default class EditableTableView extends Vue {
       ],
       disabled: false,
       floatingThead: true,
-      floatingTbody: true,
-      floatingColumns: 1,
+      floatingColumns: 2,
       numberOfLines: true,
       focus: {
         x: 0,
