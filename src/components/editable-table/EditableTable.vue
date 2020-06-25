@@ -82,7 +82,7 @@ export default class EditableTable extends Vue {
   @Prop({ required: false, default: false })
   focused?: boolean
 
-  pseudoFocused = this.focused
+  pseudoFocused? = false
 
   lastCellLoaded = false
 
@@ -98,7 +98,8 @@ export default class EditableTable extends Vue {
   onLastCellLoaded () {
     if (!this.lastCellLoaded) {
       this.lastCellLoaded = true
-      if (this.focused) {
+      this.pseudoFocused = this.focused
+      if (this.pseudoFocused) {
         this.setFocus(this.focus.x, this.focus.y)
       }
     }
