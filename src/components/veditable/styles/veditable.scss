@@ -11,18 +11,19 @@
   --veditable-bg-color: #ffffff;
   --veditable-bg-even-color: #f8f8f8;
   --veditable-fg-color: #202020;
-  --veditable-header-color: #e0e0e0;
+  --veditable-header-bg-color: #e0e0e0;
+  --veditable-header-fg-color: #202020;
   --veditable-accent-color: #0080f0;
   --veditable-editing-color: #e0f0ff;
   --veditable-notice-color: #f00000;
   --veditable-border-color: #c0c0c0;
  */
 .veditable {
-  --table-font-family: -apple-system, BlinkMacSystemFont, "Helvetica Neue", "Segoe UI", "Yu Gothic", YuGothic, sans-serif;
   --table-bg-color: var(--veditable-bg-color, #ffffff);
   --table-bg-even-color: var(--veditable-bg-even-color, var(--veditable-bg-color, #f8f8f8));
   --table-fg-color: var(--veditable-fg-color, #202020);
-  --table-header-color: var(--veditable-header-color, #e0e0e0);
+  --table-header-bg-color: var(--veditable-header-bg-color, #e0e0e0);
+  --table-header-fg-color: var(--veditable-header-fg-color, #202020);
   --table-accent-color: var(--veditable-accent-color, #0080f0);
   --table-editing-color: var(--veditable-editing-color, #e0f0ff);
   --table-notice-color: var(--veditable-notice-color, #f00000);
@@ -30,7 +31,6 @@
 
   outline: 3px solid transparent;
   color: var(--table-fg-color);
-  font-family: var(--table-font-family);
   font-size: 1rem;
   -moz-osx-font-smoothing: grayscale;
   -webkit-font-smoothing: antialiased;
@@ -65,7 +65,8 @@
   }
 
   th {
-    background-color: var(--table-header-color);
+    background-color: var(--table-header-bg-color);
+    color: var(--table-header-fg-color);
     padding: 0 0.5em;
     white-space: pre;
   }
@@ -87,7 +88,7 @@
     z-index: 3;
   }
   thead tr:not(:last-child) &__corner {
-    border-bottom-color: var(--table-header-color);
+    border-bottom-color: var(--table-header-bg-color);
   }
   tbody th {
     z-index: 2;
