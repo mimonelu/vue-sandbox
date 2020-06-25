@@ -1,5 +1,5 @@
 <template>
-  <div class="editable-table--checkbox">
+  <div class="veditable--radio">
     <label
       v-for="option, optionIndex in options"
       :key="`option__${optionIndex}`"
@@ -7,7 +7,7 @@
       <input
         v-model="cell.value"
         tabindex="-1"
-        type="checkbox"
+        type="radio"
         :value="option.value"
         :disabled="disabled"
       />
@@ -20,7 +20,7 @@
 import { Component, Prop, Vue } from 'vue-property-decorator'
 
 @Component
-export default class CheckboxExtension extends Vue {
+export default class ButtonExtension extends Vue {
   @Prop({ required: true })
   options?: any
 

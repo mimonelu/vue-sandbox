@@ -1,11 +1,11 @@
 <template>
-  <div class="editable-table--link">
+  <div class="veditable--link">
     <div v-if="disabled">{{ label || href }}</div>
     <a
       v-else
       :href="href"
       :target="target"
-      class="editable-table__focusable-target"
+      class="veditable__focusable-target"
       ref="link"
       tabindex="-1"
       @keydown.space.prevent="onKeyDownSpace"

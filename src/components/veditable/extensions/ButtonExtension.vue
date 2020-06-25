@@ -1,8 +1,8 @@
 <template>
-  <div class="editable-table--button">
+  <div class="veditable--button">
     <button
       :disabled="disabled"
-      class="editable-table__focusable-target"
+      class="veditable__focusable-target"
       tabindex="-1"
       @click="click"
     >{{ label }}</button>

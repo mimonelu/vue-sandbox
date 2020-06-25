@@ -1,6 +1,6 @@
 <template>
   <menu class="top-view">
-    <router-link to="/editable-table">EditableTable</router-link>
+    <router-link to="/veditable">Veditable</router-link>
     <router-link to="/editable-tree">EditableTree</router-link>
   </menu>
 </template>

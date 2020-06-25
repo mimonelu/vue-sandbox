@@ -83,25 +83,25 @@
     </template>
     <div
       v-else
-      class="editable-table--label"
+      class="veditable--label"
     >{{ valueLabel }}</div>
   </td>
 </template>
 
 <script lang="ts">
 import { Component, Prop, Vue } from 'vue-property-decorator'
-import ArrayExtension from '@/components/editable-table/extensions/ArrayExtension.vue'
-import BooleanExtension from '@/components/editable-table/extensions/BooleanExtension.vue'
-import ButtonExtension from '@/components/editable-table/extensions/ButtonExtension.vue'
-import CheckboxExtension from '@/components/editable-table/extensions/CheckboxExtension.vue'
-import LinkExtension from '@/components/editable-table/extensions/LinkExtension.vue'
-import ListExtension from '@/components/editable-table/extensions/ListExtension.vue'
-import NumberExtension from '@/components/editable-table/extensions/NumberExtension.vue'
-import RadioExtension from '@/components/editable-table/extensions/RadioExtension.vue'
-import SelectExtension from '@/components/editable-table/extensions/SelectExtension.vue'
-import StringExtension from '@/components/editable-table/extensions/StringExtension.vue'
-import TextExtension from '@/components/editable-table/extensions/TextExtension.vue'
-import { TObject } from '@/components/editable-table/types'
+import ArrayExtension from '@/components/veditable/extensions/ArrayExtension.vue'
+import BooleanExtension from '@/components/veditable/extensions/BooleanExtension.vue'
+import ButtonExtension from '@/components/veditable/extensions/ButtonExtension.vue'
+import CheckboxExtension from '@/components/veditable/extensions/CheckboxExtension.vue'
+import LinkExtension from '@/components/veditable/extensions/LinkExtension.vue'
+import ListExtension from '@/components/veditable/extensions/ListExtension.vue'
+import NumberExtension from '@/components/veditable/extensions/NumberExtension.vue'
+import RadioExtension from '@/components/veditable/extensions/RadioExtension.vue'
+import SelectExtension from '@/components/veditable/extensions/SelectExtension.vue'
+import StringExtension from '@/components/veditable/extensions/StringExtension.vue'
+import TextExtension from '@/components/veditable/extensions/TextExtension.vue'
+import { TObject } from '@/components/veditable/types'
 
 const stringTypes: TObject = {
   date: true,
@@ -131,7 +131,7 @@ const stringTypes: TObject = {
     TextExtension,
   },
 })
-export default class EditableTableCell extends Vue {
+export default class VeditableCell extends Vue {
   @Prop({ required: true })
   cell?: any
 

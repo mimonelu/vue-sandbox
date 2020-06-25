@@ -5,7 +5,7 @@
       :data-column="0"
       :data-is-floating="'' + (floatingColumns > 0)"
     >{{ rowIndex + 1 }}</th>
-    <editable-table-cell
+    <veditable-cell
       v-for="cell, columnIndex of columns"
       :key="columnIndex"
       :data-column="numberOfLines ? columnIndex + 1 : columnIndex"
@@ -25,14 +25,14 @@
 
 <script lang="ts">
 import { Component, Emit, Prop, Vue } from 'vue-property-decorator'
-import EditableTableCell from '@/components/editable-table/EditableTableCell.vue'
+import VeditableCell from '@/components/veditable/VeditableCell.vue'
 
 @Component({
   components: {
-    EditableTableCell,
+    VeditableCell,
   },
 })
-export default class EditableTableRow extends Vue {
+export default class VeditableRow extends Vue {
   @Prop({ required: true })
   columns?: any
 

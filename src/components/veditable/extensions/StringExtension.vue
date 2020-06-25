@@ -1,8 +1,8 @@
 <template>
-  <div class="editable-table--string">
+  <div class="veditable--string">
     <input
-      v-model.number="cell.value"
-      :type="type"
+      v-model="cell.value"
+      :type="validType"
       :readonly="disabled"
       ref="input"
       @focus="onFocus"
@@ -15,7 +15,7 @@
 import { Component, Prop, Vue } from 'vue-property-decorator'
 
 @Component
-export default class NumberExtension extends Vue {
+export default class StringExtension extends Vue {
   @Prop({ required: true })
   type?: any
 
@@ -24,6 +24,10 @@ export default class NumberExtension extends Vue {
 
   @Prop({ required: true })
   disabled?: boolean
+
+  get validType (): string {
+    return this.type === 'string' ? 'text' : this.type
+  }
 
   mounted () {
     this.onFocus()

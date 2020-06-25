@@ -1,10 +1,10 @@
 <template>
-  <div class="editable-table--text">
-    <textarea
-      v-model="cell.value"
+  <div class="veditable--string">
+    <input
+      v-model.number="cell.value"
+      :type="type"
       :readonly="disabled"
-      ref="textarea"
-      rows="1"
+      ref="input"
       @focus="onFocus"
       @input="onInput"
     />
@@ -15,7 +15,10 @@
 import { Component, Prop, Vue } from 'vue-property-decorator'
 
 @Component
-export default class TextExtension extends Vue {
+export default class NumberExtension extends Vue {
+  @Prop({ required: true })
+  type?: any
+
   @Prop({ required: true })
   cell?: any
 
@@ -27,17 +30,15 @@ export default class TextExtension extends Vue {
   }
 
   onFocus () {
-    (this.$refs.textarea as HTMLInputElement).select()
+    (this.$refs.input as HTMLInputElement).select()
     this.onInput()
   }
 
   onInput () {
-    const target = this.$refs.textarea as HTMLInputElement
+    const target = this.$refs.input as HTMLInputElement
     if (target) {
       target.style.width = 'auto'
-      target.style.height = 'auto'
       target.style.width = `${target.scrollWidth}px`
-      target.style.height = `${target.scrollHeight}px`
     }
   }
 }

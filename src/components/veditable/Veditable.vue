@@ -1,6 +1,6 @@
 <template>
   <div
-    class="editable-table"
+    class="veditable"
     :data-is-floating-thead="'' + floatingThead"
     :data-floating-columns="floatingColumns"
     :data-is-focused="'' + pseudoFocused"
@@ -13,7 +13,7 @@
         >
           <th
             v-if="numberOfLines"
-            class="editable-table__corner"
+            class="veditable__corner"
             :data-column="0"
             :data-is-floating="'' + (floatingColumns > 0)"
           />
@@ -27,7 +27,7 @@
         </tr>
       </thead>
       <tbody v-if="bodies.length > 0">
-        <editable-table-row
+        <veditable-row
           v-for="bodyRow, bodyRowIndex of bodies"
           :key="bodyRowIndex"
           :columns="bodyRow"
@@ -47,14 +47,14 @@
 
 <script lang="ts">
 import { Component, Prop, Vue } from 'vue-property-decorator'
-import EditableTableRow from '@/components/editable-table/EditableTableRow.vue'
+import VeditableRow from '@/components/veditable/VeditableRow.vue'
 
 @Component({
   components: {
-    EditableTableRow,
+    VeditableRow,
   },
 })
-export default class EditableTable extends Vue {
+export default class Veditable extends Vue {
   @Prop({ required: false, default: () => ([]) })
   headers: any
 
@@ -107,7 +107,7 @@ export default class EditableTable extends Vue {
 
   onClick (event: MouseEvent) {
     const target = event.target as HTMLElement
-    this.pseudoFocused = target.closest('.editable-table') === this.$el
+    this.pseudoFocused = target.closest('.veditable') === this.$el
     if (this.pseudoFocused && target.closest('td') === null) {
       this.setFocus(this.focus.x, this.focus.y)
     }
@@ -216,7 +216,7 @@ export default class EditableTable extends Vue {
       if (document.activeElement) {
         (document.activeElement as HTMLInputElement).blur()
       }
-      const focusableTarget = Vue.prototype.$currentCell.$el.querySelector('.editable-table__focusable-target') as HTMLInputElement
+      const focusableTarget = Vue.prototype.$currentCell.$el.querySelector('.veditable__focusable-target') as HTMLInputElement
       if (focusableTarget) {
         focusableTarget.focus()
       }
@@ -293,5 +293,5 @@ export default class EditableTable extends Vue {
 </script>
 
 <style lang="scss">
-@import "@/components/editable-table/styles/editable-table";
+@import "@/components/veditable/styles/veditable";
 </style>

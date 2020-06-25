@@ -1,8 +1,8 @@
 <template>
-  <label class="editable-table--boolean">
+  <label class="veditable--boolean">
     <input
       v-model="cell.value"
-      class="editable-table__focusable-target"
+      class="veditable__focusable-target"
       tabindex="-1"
       type="checkbox"
       :disabled="disabled"

@@ -1,5 +1,5 @@
 <template>
-  <div class="editable-table--select">
+  <div class="veditable--select">
     <select
       v-model="cell.value"
       :disabled="disabled"

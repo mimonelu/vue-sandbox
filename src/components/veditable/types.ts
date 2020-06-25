@@ -1,4 +1,4 @@
-export interface TEditableTable {
+export interface TVeditable {
   headers?: any;
   bodies?: any;
   columnRegulations?: any;
@@ -11,7 +11,7 @@ export interface TEditableTable {
   focused?: boolean;
 }
 
-export interface TEditableTableButtonParams {
+export interface TVeditableButtonParams {
   cell: any;
   row: number;
   column: number;

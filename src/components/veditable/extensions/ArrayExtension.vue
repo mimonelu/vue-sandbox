@@ -1,5 +1,5 @@
 <template>
-  <div class="editable-table--array">
+  <div class="veditable--array">
     <span>{{ value }}</span>
     <small>{{ suffix }}</small>
   </div>
