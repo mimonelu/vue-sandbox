@@ -13,6 +13,18 @@
     @click="onClick"
     @dblclick="onDoubleClick"
   >
+    <div
+      v-if="isRequired && isEmpty"
+      class="veditable--error"
+    >入力必須項目です</div>
+    <div
+      v-if="!isRuled"
+      class="veditable--error"
+    >{{ rule && rule.message }}</div>
+    <div
+      v-if="!isTypeValid"
+      class="veditable--error"
+    >データの型が不正です</div>
     <array-extension
       v-if="requiredValueType === 'array' && !extension"
       :cell="cell"
@@ -208,11 +220,15 @@ export default class VeditableCell extends Vue {
   }
 
   get isRuled (): boolean {
-    const rule = this.getProp('rule')
-    if (rule != null) {
-      return rule(this.cell.value)
+    const rule = this.rule
+    if (rule != null && rule.callback != null) {
+      return rule.callback(this.cell.value)
     }
     return true
+  }
+
+  get rule (): any {
+    return this.getProp('rule')
   }
 
   get isDisabled (): boolean {

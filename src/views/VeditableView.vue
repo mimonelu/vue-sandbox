@@ -81,11 +81,11 @@ export default class VeditableView extends Vue {
       columnRegulations: [
         { extension: { type: 'button', label: 'Check', callback: this.showData } },
         { type: 'boolean' },
-        { type: 'number', disabled: true, rule (value: any) { return value <= 50 } },
+        { type: 'number', disabled: true, rule: { callback (value: any) { return value <= 50 }, message: '値は50以下でなければなりません' } },
         { type: 'string', required: true },
         { type: 'string', multiline: true },
         { type: 'array', suffix: '件' },
-        { type: 'number', filter: this.filterSample },
+        { type: 'number', filter: this.filterSample, required: true },
         { extension: { type: 'link', label: 'Open URL', target: '_blank' } },
         { extension: { type: 'button', label: 'Click me!', callback (params: TVeditableButtonParams) { alert(`${params.cell.value} This cell is (${params.row}, ${params.column}).`) } } },
         { type: 'number', extension: { type: 'radio', options: [ { label: 'No.1', value: 1 }, { label: 'No.2', value: 2 }, { label: 'No.3', value: 3 } ] } },
