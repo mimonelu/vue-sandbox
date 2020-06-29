@@ -24,7 +24,7 @@
     <div
       v-if="!isTypeValid"
       class="veditable--error"
-    >データの型が不正です</div>
+    >データが不正です</div>
     <array-extension
       v-if="requiredValueType === 'array' && !extension"
       :cell="cell"
@@ -34,6 +34,7 @@
       v-else-if="requiredValueType === 'boolean'"
       :cell="cell"
       :disabled="isDisabled"
+      @change="onChange"
     />
     <button-extension
       v-else-if="extension && extension.type === 'button'"
@@ -46,12 +47,14 @@
       :options="extension.options"
       :cell="cell"
       :disabled="isDisabled"
+      @change="onChange"
     />
     <radio-extension
       v-else-if="extension && extension.type === 'radio'"
       :options="extension.options"
       :cell="cell"
       :disabled="isDisabled"
+      @change="onChange"
     />
     <link-extension
       v-else-if="extension && extension.type === 'link'"
@@ -68,29 +71,34 @@
         :list="extension.options"
         :list-id="`list--${rowIndex}--${columnIndex}`"
         :disabled="isDisabled"
+        @change="onChange"
       />
       <select-extension
         v-else-if="extension && extension.type === 'select'"
         :options="extension.options"
         :cell="cell"
         :disabled="isDisabled"
+        @change="onChange"
       />
       <number-extension
         v-else-if="requiredValueType === 'number'"
         :type="requiredValueType"
         :cell="cell"
         :disabled="isDisabled"
+        @change="onChange"
       />
       <text-extension
         v-else-if="requiredValueType === 'string' && getProp('multiline')"
         :cell="cell"
         :disabled="isDisabled"
+        @change="onChange"
       />
       <string-extension
         v-else
         :type="requiredValueType"
         :cell="cell"
         :disabled="isDisabled"
+        @change="onChange"
       />
     </template>
     <div
@@ -172,13 +180,17 @@ export default class VeditableCell extends Vue {
 
   focused = false
 
-  get currentValueType (): string {
+  get actualValueType (): string | null {
     const cell = this.cell
     if (cell.value == null) {
       return 'string'
     }
     if (Array.isArray(cell.value)) {
       return 'array'
+    }
+    const extension = this.extension
+    if (extension && extension.type === 'select' && this.getOption(extension.options, cell.value) === null) {
+      return null
     }
     return typeof cell.value
   }
@@ -197,9 +209,9 @@ export default class VeditableCell extends Vue {
 
   get isTypeValid (): boolean {
     if (stringTypes[this.requiredValueType] === true) {
-      return this.currentValueType === 'string'
+      return this.actualValueType === 'string'
     }
-    return this.currentValueType === this.requiredValueType
+    return this.actualValueType === this.requiredValueType
   }
 
   get isRequired (): boolean {
@@ -248,8 +260,7 @@ export default class VeditableCell extends Vue {
 
   get valueLabel (): string {
     const cell = this.cell
-    const extension = this.extension
-    const value = (extension && extension.type === 'select') ? this.getSelectLabel(extension.options, cell.value) : cell.value
+    const value = this.getLabel(cell)
     if (cell.filter !== null) {
       if (cell.filter !== undefined) {
         return cell.filter(value)
@@ -262,13 +273,26 @@ export default class VeditableCell extends Vue {
     return value
   }
 
-  getSelectLabel (options: any, value: any): string {
+  getLabel (cell: any): any {
+    const extension = this.extension
+    if (extension && extension.type === 'select') {
+      const option = this.getOption(extension.options, cell.value)
+      if (option != null) {
+        return option.label
+      }
+    } else {
+      return cell.value
+    }
+    return null
+  }
+
+  getOption (options: any, value: any): any {
     for (let i = 0; i < options.length; i ++) {
       if (options[i].value === value) {
-        return options[i].label
+        return options[i]
       }
     }
-    return ''
+    return null
   }
 
   get extension (): any {
@@ -304,6 +328,13 @@ export default class VeditableCell extends Vue {
   // TODO: 要リファクタリング
   canEdit (): boolean {
     return (!this.extension || this.extension.type === 'select' || this.extension.type === 'list') && this.requiredValueType !== 'array' && this.requiredValueType !== 'boolean'
+  }
+
+  onChange () {
+    const extension = this.extension
+    if (extension && extension.change != null) {
+      extension.change()
+    }
   }
 
   onClick () {

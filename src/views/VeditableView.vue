@@ -1,5 +1,6 @@
 <template>
   <div class="veditable-view">
+    <veditable v-bind="veditableProps3" />
     <veditable v-bind="veditableProps1" />
     <veditable v-bind="veditableProps2" />
     <button @click="change">Change</button>
@@ -22,6 +23,8 @@ export default class VeditableView extends Vue {
   veditableProps1: TVeditable = {}
 
   veditableProps2: TVeditable = {}
+
+  veditableProps3: TVeditable = {}
 
   serialNumber = 0
 
@@ -79,7 +82,7 @@ export default class VeditableView extends Vue {
       ],
       bodies: Array(100).fill(0).map(() => this.makeSampleRow()),
       columnRegulations: [
-        { extension: { type: 'button', label: 'Check', callback: this.showData } },
+        { extension: { type: 'button', label: 'Check', callback: this.showData1 } },
         { type: 'boolean' },
         { type: 'number', disabled: true, rule: { callback (value: any) { return value <= 50 }, message: '値は50以下でなければなりません' } },
         { type: 'string', required: true },
@@ -105,6 +108,7 @@ export default class VeditableView extends Vue {
       },
       focused: true,
     }
+
     this.veditableProps2 = {
       headers: [
         [
@@ -125,6 +129,36 @@ export default class VeditableView extends Vue {
         { type: 'string', required: true },
         { type: 'array', extension: { type: 'checkbox', options: [ { label: 'No.1', value: 1 }, { label: 'No.2', value: 2 }, { label: 'No.3', value: 3 } ] } },
         { type: 'number', extension: { type: 'radio', options: [ { label: 'No.1', value: 1 }, { label: 'No.2', value: 2 }, { label: 'No.3', value: 3 } ] } },
+      ],
+    }
+
+    const options = [
+      [ { label: 'One', value: 'One' }, { label: 'Two', value: 'Two' }, { label: 'Three', value: 'Three' } ],
+      [ { label: 'Red', value: 'Red' }, { label: 'Green', value: 'Green' }, { label: 'Blue', value: 'Blue' } ],
+      [ { label: 'Apple', value: 'Apple' }, { label: 'Banana', value: 'Banana' }, { label: 'Cherry', value: 'Cherry' } ],
+    ]
+    const onChange = () => {
+      this.veditableProps3.columnRegulations[2].extension.options = options[this.veditableProps3.bodies[0][1].value]
+    }
+    this.veditableProps3 = {
+      headers: [
+        [
+          { value: 'Check' },
+          { value: 'Category 1' },
+          { value: 'Category 2' },
+        ],
+      ],
+      bodies: [
+        [
+          { value: '' },
+          { value: 0 },
+          { value: 'One' },
+        ]
+      ],
+      columnRegulations: [
+        { extension: { type: 'button', label: 'Check', callback: this.showData3 } },
+        { type: 'number', extension: { type: 'select', options: [ { label: 'Number', value: 0 }, { label: 'Colors', value: 1 }, { label: 'Fruits', value: 2 } ], change: onChange } },
+        { type: 'string', extension: { type: 'select', options: options[0] } },
       ],
     }
   }
@@ -151,8 +185,12 @@ export default class VeditableView extends Vue {
     return result
   }
 
-  showData (params: TVeditableButtonParams) {
+  showData1 (params: TVeditableButtonParams) {
     alert(JSON.stringify(this.veditableProps1.bodies[params.row]))
+  }
+
+  showData3 (params: TVeditableButtonParams) {
+    alert(JSON.stringify(this.veditableProps3.bodies[params.row]))
   }
 
   filterSample (value: any): string {
@@ -181,7 +219,12 @@ export default class VeditableView extends Vue {
 .veditable-view {
   margin: 1em;
 
-  .veditable {
+  .veditable:nth-child(1) {
+    width: 50%;
+  }
+
+  .veditable:nth-child(2),
+  .veditable:nth-child(3) {
     margin: 1em 0;
     height: 320px;
   }

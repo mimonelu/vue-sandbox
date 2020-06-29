@@ -5,6 +5,7 @@
       :type="type"
       :readonly="disabled"
       ref="input"
+      @change="onChange"
       @focus="onFocus"
       @input="onInput"
     />
@@ -12,7 +13,7 @@
 </template>
 
 <script lang="ts">
-import { Component, Prop, Vue } from 'vue-property-decorator'
+import { Component, Emit, Prop, Vue } from 'vue-property-decorator'
 
 @Component
 export default class NumberExtension extends Vue {
@@ -28,6 +29,9 @@ export default class NumberExtension extends Vue {
   mounted () {
     this.onFocus()
   }
+
+  @Emit('change')
+  onChange () { /**/ }
 
   onFocus () {
     (this.$refs.input as HTMLInputElement).select()

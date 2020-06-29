@@ -10,6 +10,7 @@
         type="checkbox"
         :value="option.value"
         :disabled="disabled"
+        @change="onChange"
       />
       <span>{{ option.label }}</span>
     </label>
@@ -17,7 +18,7 @@
 </template>
 
 <script lang="ts">
-import { Component, Prop, Vue } from 'vue-property-decorator'
+import { Component, Emit, Prop, Vue } from 'vue-property-decorator'
 
 @Component
 export default class CheckboxExtension extends Vue {
@@ -29,5 +30,8 @@ export default class CheckboxExtension extends Vue {
 
   @Prop({ required: true })
   disabled?: boolean
+
+  @Emit('change')
+  onChange () { /**/ }
 }
 </script>

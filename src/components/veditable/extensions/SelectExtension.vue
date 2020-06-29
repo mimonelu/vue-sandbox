@@ -4,6 +4,7 @@
       v-model="cell.value"
       :disabled="disabled"
       ref="select"
+      @change="onChange"
     >
       <option
         v-for="option, optionIndex in options"
@@ -16,7 +17,7 @@
 </template>
 
 <script lang="ts">
-import { Component, Prop, Vue } from 'vue-property-decorator'
+import { Component, Emit, Prop, Vue } from 'vue-property-decorator'
 
 @Component
 export default class SelectExtension extends Vue {
@@ -32,5 +33,8 @@ export default class SelectExtension extends Vue {
   mounted () {
     (this.$refs.select as HTMLSelectElement).focus()
   }
+
+  @Emit('change')
+  onChange () { /**/ }
 }
 </script>

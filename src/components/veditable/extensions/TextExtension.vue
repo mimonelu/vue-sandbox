@@ -5,6 +5,7 @@
       :readonly="disabled"
       ref="textarea"
       rows="1"
+      @change="onChange"
       @focus="onFocus"
       @input="onInput"
     />
@@ -12,7 +13,7 @@
 </template>
 
 <script lang="ts">
-import { Component, Prop, Vue } from 'vue-property-decorator'
+import { Component, Emit, Prop, Vue } from 'vue-property-decorator'
 
 @Component
 export default class TextExtension extends Vue {
@@ -25,6 +26,9 @@ export default class TextExtension extends Vue {
   mounted () {
     this.onFocus()
   }
+
+  @Emit('change')
+  onChange () { /**/ }
 
   onFocus () {
     (this.$refs.textarea as HTMLInputElement).select()
