@@ -234,7 +234,7 @@ export default class Veditable extends Vue {
         cells.some((cell: any) => {
           const styles = window.getComputedStyle(cell)
           if (styles.position === 'sticky') {
-            stickyWidth += cell.clientWidth
+            stickyWidth += cell.offsetWidth
             return false
           }
           return true
