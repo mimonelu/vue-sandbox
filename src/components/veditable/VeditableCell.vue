@@ -6,6 +6,7 @@
     :data-is-required="'' + isRequired"
     :data-is-empty="'' + isEmpty"
     :data-is-ruled="'' + isRuled"
+    :data-rule-type="ruleType"
     :data-is-disabled="'' + isDisabled"
     :data-is-floating="'' + floating"
     :data-is-focused="'' + focused"
@@ -234,9 +235,17 @@ export default class VeditableCell extends Vue {
   get isRuled (): boolean {
     const rule = this.rule
     if (rule != null && rule.callback != null) {
-      return rule.callback(this.cell.value)
+      return rule.callback(this.cell.value, rule.params)
     }
     return true
+  }
+
+  get ruleType (): string | null {
+    const rule = this.rule
+    if (rule != null) {
+      return rule.type || 'error'
+    }
+    return null
   }
 
   get rule (): any {
@@ -333,7 +342,10 @@ export default class VeditableCell extends Vue {
   onChange () {
     const extension = this.extension
     if (extension && extension.change != null) {
-      extension.change()
+      extension.change({
+        x: this.columnIndex,
+        y: this.rowIndex,
+      })
     }
   }
 

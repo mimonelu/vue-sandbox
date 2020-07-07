@@ -289,6 +289,10 @@ export default class Veditable extends Vue {
       this.setFocus(x, y)
     }
   }
+
+  forceUpdate () {
+    this.$forceUpdate()
+  }
 }
 </script>
 

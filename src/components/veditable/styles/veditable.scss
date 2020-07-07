@@ -8,6 +8,7 @@
   --veditable-accent-color: #0080f0;
   --veditable-editing-color: #e0f0ff;
   --veditable-notice-color: #f00000;
+  --veditable-warn-color: #f0f000;
   --veditable-border-color: #c0c0c0;
  */
 .veditable {
@@ -19,6 +20,7 @@
   --table-accent-color: var(--veditable-accent-color, #0080f0);
   --table-editing-color: var(--veditable-editing-color, #e0f0ff);
   --table-notice-color: var(--veditable-notice-color, #f00000);
+  --table-warn-color: var(--veditable-warn-color, #f0f000);
   --table-border-color: var(--veditable-border-color, #c0c0c0);
 
   outline: 3px solid transparent;
@@ -117,8 +119,13 @@
     color: var(--table-bg-color);
   }
   tr td[data-is-ruled="false"] {
-    background-color: var(--table-notice-color);
-    color: var(--table-bg-color);
+    &:not([data-rule-type="warn"]) {
+      background-color: var(--table-notice-color);
+      color: var(--table-bg-color);
+    }
+    &[data-rule-type="warn"] {
+      background-color: var(--table-warn-color);
+    }
   }
   tr td[data-is-focused="true"]::after {
     border: 3px solid var(--table-accent-color);
