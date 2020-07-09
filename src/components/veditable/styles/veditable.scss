@@ -110,14 +110,6 @@
   tr td[data-required-type="number"] {
     text-align: right;
   }
-  tr td[data-type-is-valid="false"] {
-    background-color: var(--table-notice-color);
-    color: var(--table-bg-color);
-  }
-  tr td[data-is-required="true"][data-is-empty="true"] {
-    background-color: var(--table-notice-color);
-    color: var(--table-bg-color);
-  }
   tr td[data-is-ruled="false"] {
     &:not([data-rule-type="warn"]) {
       background-color: var(--table-notice-color);
@@ -126,6 +118,14 @@
     &[data-rule-type="warn"] {
       background-color: var(--table-warn-color);
     }
+  }
+  tr td[data-is-required="true"][data-is-empty="true"] {
+    background-color: var(--table-notice-color);
+    color: var(--table-bg-color);
+  }
+  tr td[data-type-is-valid="false"] {
+    background-color: var(--table-notice-color);
+    color: var(--table-bg-color);
   }
   tr td[data-is-focused="true"]::after {
     border: 3px solid var(--table-accent-color);

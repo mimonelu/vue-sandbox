@@ -279,6 +279,7 @@ export default class Veditable extends Vue {
   setFocusToLeft () {
     if (Vue.prototype.$currentCell) {
       this.setFocus(0, Vue.prototype.$currentCell.rowIndex)
+      this.$el.scrollLeft = 0
     }
   }
 

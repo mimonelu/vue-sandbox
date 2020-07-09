@@ -336,7 +336,7 @@ export default class VeditableCell extends Vue {
 
   // TODO: 要リファクタリング
   canEdit (): boolean {
-    return (!this.extension || this.extension.type === 'select' || this.extension.type === 'list') && this.requiredValueType !== 'array' && this.requiredValueType !== 'boolean'
+    return !this.isDisabled && (!this.extension || this.extension.type === 'select' || this.extension.type === 'list') && this.requiredValueType !== 'array' && this.requiredValueType !== 'boolean'
   }
 
   onChange () {
