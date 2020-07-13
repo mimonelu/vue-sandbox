@@ -18,6 +18,7 @@
       :is-last-row="isLastRow"
       :is-last-column="columnIndex === columnsWithoutHeader.length - 1"
       @cellClicked="onCellClicked"
+      @cellEditing="onCellEditing"
       @lastCellLoaded.once="$emit('lastCellLoaded')"
     />
   </tr>
@@ -78,5 +79,8 @@ export default class VeditableRow extends Vue {
       y: params.y,
     }
   }
+
+  @Emit('cellEditing')
+  onCellEditing () { /**/ }
 }
 </script>

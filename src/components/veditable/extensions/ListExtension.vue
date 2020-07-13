@@ -8,6 +8,7 @@
       ref="input"
       @change="onChange"
       @focus="onFocus"
+      @input="onInput"
     />
     <datalist
       v-if="list"
@@ -51,6 +52,14 @@ export default class ListExtension extends Vue {
 
   onFocus () {
     (this.$refs.input as HTMLInputElement).select()
+  }
+
+  onInput () {
+    const target = this.$refs.input as HTMLInputElement
+    if (target) {
+      target.style.width = 'auto'
+      target.style.width = `${target.scrollWidth}px`
+    }
   }
 }
 </script>

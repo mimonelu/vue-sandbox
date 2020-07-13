@@ -362,6 +362,7 @@ export default class VeditableCell extends Vue {
   onDoubleClick () {
     if (this.canEdit()) {
       this.editing = true
+      this.$emit('cellEditing')
     }
   }
 }

@@ -39,6 +39,7 @@
           :floating-columns="floatingColumns"
           :is-last-row="bodyRowIndex === bodies.length - 1"
           @cellClicked="onCellClicked"
+          @cellEditing="onCellEditing"
           @lastCellLoaded.once="onLastCellLoaded"
         />
       </tbody>
@@ -97,6 +98,10 @@ export default class Veditable extends Vue {
 
   onCellClicked (params: any) {
     this.setFocus(params.x, params.y)
+  }
+
+  onCellEditing () {
+    this.scrollNextTick()
   }
 
   onLastCellLoaded () {
@@ -181,6 +186,7 @@ export default class Veditable extends Vue {
         case ' ': {
           if (currentCell && currentCell.canEdit()) {
             currentCell.editing = true
+            this.scrollNextTick()
             event.preventDefault()
           }
           break
@@ -257,6 +263,14 @@ export default class Veditable extends Vue {
         this.$el.scrollTop = target.offsetTop + target.clientHeight - this.$el.clientHeight
       }
     }
+  }
+
+  scrollNextTick () {
+    this.$nextTick(() => {
+      if (Vue.prototype.$currentCell) {
+        this.scrollIntoView(Vue.prototype.$currentCell.$el)
+      }
+    })
   }
 
   setFocusToTop () {

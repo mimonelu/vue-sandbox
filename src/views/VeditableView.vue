@@ -96,7 +96,8 @@ export default class VeditableView extends Vue {
         { type: 'string', extension: { type: 'list', options: [ 'apple', 'bug', 'cupid' ] } },
         { extension: { type: 'button', label: 'Remove', callback: this.remove } },
         { extension: { type: 'button', label: 'Add up', callback: this.addUp } },
-        { extension: { type: 'button', label: 'Add down', callback: this.addDown } },
+        // { extension: { type: 'button', label: 'Add down', callback: this.addDown } },
+        null
       ],
       disabled: false,
       headerColumn: 0,
