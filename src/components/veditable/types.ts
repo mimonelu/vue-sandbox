@@ -4,6 +4,7 @@ export interface TVeditable {
   columnRegulations?: any;
   numberOfLines?: boolean;
   disabled?: boolean;
+  headerColumn?: number;
   floatingThead?: boolean;
   floatingTbody?: boolean;
   floatingColumns?: number;

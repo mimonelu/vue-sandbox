@@ -35,7 +35,8 @@
           :row-index="bodyRowIndex"
           :number-of-lines="numberOfLines"
           :disabled="disabled"
-          :floatingColumns="floatingColumns"
+          :header-column="headerColumn"
+          :floating-columns="floatingColumns"
           :is-last-row="bodyRowIndex === bodies.length - 1"
           @cellClicked="onCellClicked"
           @lastCellLoaded.once="onLastCellLoaded"
@@ -66,6 +67,9 @@ export default class Veditable extends Vue {
 
   @Prop({ required: false, default: false })
   disabled?: boolean
+
+  @Prop({ required: false, default: - 1 })
+  headerColumn?: number
 
   @Prop({ required: false, default: true })
   floatingThead?: boolean

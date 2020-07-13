@@ -99,6 +99,7 @@ export default class VeditableView extends Vue {
         { extension: { type: 'button', label: 'Add down', callback: this.addDown } },
       ],
       disabled: false,
+      headerColumn: 0,
       floatingThead: true,
       floatingColumns: 2,
       numberOfLines: true,
@@ -165,6 +166,7 @@ export default class VeditableView extends Vue {
 
   makeSampleRow (): any {
     const result = [
+      { value: irandom(1, 1000) },
       { value: null },
       { value: irandom(0, 1) === 1 },
       { value: this.serialNumber },

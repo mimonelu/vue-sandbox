@@ -154,28 +154,28 @@ const stringTypes: TObject = {
 })
 export default class VeditableCell extends Vue {
   @Prop({ required: true })
-  cell?: any
+  cell!: any
 
   @Prop({ required: true })
-  regulation?: any
+  regulation!: any
 
   @Prop({ required: true })
-  rowIndex?: number
+  rowIndex!: number
 
   @Prop({ required: true })
-  columnIndex?: number
+  columnIndex!: number
 
   @Prop({ required: true })
-  disabled?: boolean
+  disabled!: boolean
 
   @Prop({ required: true })
-  floating?: boolean
+  floating!: boolean
 
   @Prop({ required: true })
-  isLastRow?: boolean
+  isLastRow!: boolean
 
   @Prop({ required: true })
-  isLastColumn?: boolean
+  isLastColumn!: boolean
 
   editing = false
 
