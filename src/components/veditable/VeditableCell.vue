@@ -1,6 +1,7 @@
 <template>
   <td
     v-bind="cell.attrs"
+    :class="classes"
     :data-required-type="requiredValueType"
     :data-type-is-valid="'' + isTypeValid"
     :data-is-required="'' + isRequired"
@@ -183,6 +184,10 @@ export default class VeditableCell extends Vue {
   editing = false
 
   focused = false
+
+  get classes (): string {
+    return this.getProp('classes')
+  }
 
   get actualValueType (): string | null {
     const cell = this.cell

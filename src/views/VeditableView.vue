@@ -85,7 +85,7 @@ export default class VeditableView extends Vue {
         { extension: { type: 'button', label: 'Check', callback: this.showData1 } },
         { type: 'boolean' },
         { type: 'number', disabled: true, rule: { callback (value: any) { return value <= 50 }, message: '値は50以下でなければなりません' } },
-        { type: 'string', required: true, rule: { type: 'warn', callback (value: any, params: any) { return !!value.match(params) }, params: /\d/, message: '数字を含んでいません' } },
+        { type: 'string', required: true, classes: 'center', rule: { type: 'warn', callback (value: any, params: any) { return !!value.match(params) }, params: /\d/, message: '数字を含んでいません' } },
         { type: 'string', multiline: true },
         { type: 'array', suffix: '件' },
         { type: 'number', filter: this.filterSample, required: true },
@@ -230,6 +230,12 @@ export default class VeditableView extends Vue {
   .veditable:nth-child(3) {
     margin: 1em 0;
     height: 320px;
+  }
+
+  .veditable::v-deep {
+    .center {
+      text-align: center;
+    }
   }
 }
 </style>
