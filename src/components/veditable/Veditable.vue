@@ -3,7 +3,7 @@
     class="veditable"
     :data-is-floating-thead="'' + floatingThead"
     :data-floating-columns="floatingColumns"
-    :data-is-focused="'' + pseudoFocused"
+    :data-is-focused="'' + (focusable && pseudoFocused)"
   >
     <table>
       <thead v-if="headers.length > 0">

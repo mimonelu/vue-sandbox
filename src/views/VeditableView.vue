@@ -103,7 +103,7 @@ export default class VeditableView extends Vue {
       floatingThead: true,
       floatingColumns: 2,
       numberOfLines: true,
-      focusable: !false,
+      focusable: true,
       focus: {
         x: 0,
         y: 0,
