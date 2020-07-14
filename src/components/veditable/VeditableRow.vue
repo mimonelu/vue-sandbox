@@ -15,6 +15,7 @@
       :column-index="columnIndex"
       :disabled="disabled"
       :floating="columnIndex < floatingColumns - 1"
+      :focusable="focusable"
       :is-last-row="isLastRow"
       :is-last-column="columnIndex === columnsWithoutHeader.length - 1"
       @cellClicked="onCellClicked"
@@ -54,6 +55,9 @@ export default class VeditableRow extends Vue {
 
   @Prop({ required: true })
   floatingColumns!: number
+
+  @Prop({ required: true })
+  focusable!: boolean
 
   @Prop({ required: true })
   isLastRow!: boolean

@@ -8,6 +8,7 @@ export interface TVeditable {
   floatingThead?: boolean;
   floatingTbody?: boolean;
   floatingColumns?: number;
+  focusable?: boolean;
   focus?: any;
   focused?: boolean;
 }

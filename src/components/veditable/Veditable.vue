@@ -37,6 +37,7 @@
           :disabled="disabled"
           :header-column="headerColumn"
           :floating-columns="floatingColumns"
+          :focusable="focusable"
           :is-last-row="bodyRowIndex === bodies.length - 1"
           @cellClicked="onCellClicked"
           @cellEditing="onCellEditing"
@@ -57,35 +58,38 @@ import VeditableRow from '@/components/veditable/VeditableRow.vue'
   },
 })
 export default class Veditable extends Vue {
-  @Prop({ required: false, default: () => ([]) })
+  @Prop({ default: () => ([]) })
   headers: any
 
-  @Prop({ required: false, default: () => ([]) })
+  @Prop({ default: () => ([]) })
   bodies: any
 
-  @Prop({ required: false, default: () => ([]) })
+  @Prop({ default: () => ([]) })
   columnRegulations: any
 
-  @Prop({ required: false, default: false })
-  disabled?: boolean
+  @Prop({ default: false })
+  disabled!: boolean
 
-  @Prop({ required: false, default: - 1 })
-  headerColumn?: number
+  @Prop({ default: - 1 })
+  headerColumn!: number
 
-  @Prop({ required: false, default: true })
-  floatingThead?: boolean
+  @Prop({ default: true })
+  floatingThead!: boolean
 
-  @Prop({ required: false, default: 1 })
-  floatingColumns?: number
+  @Prop({ default: 1 })
+  floatingColumns!: number
 
-  @Prop({ required: false, default: true })
-  numberOfLines?: boolean
+  @Prop({ default: true })
+  numberOfLines!: boolean
 
-  @Prop({ required: false, default: () => ({ x: 0, y: 0 }) })
-  focus: any
+  @Prop({ default: true })
+  focusable!: boolean
 
-  @Prop({ required: false, default: false })
-  focused?: boolean
+  @Prop({ default: () => ({ x: 0, y: 0 }) })
+  focus!: any
+
+  @Prop({ default: false })
+  focused!: boolean
 
   pseudoFocused? = false
 
@@ -107,7 +111,7 @@ export default class Veditable extends Vue {
   onLastCellLoaded () {
     if (!this.lastCellLoaded) {
       this.lastCellLoaded = true
-      this.pseudoFocused = this.focused
+      this.pseudoFocused = this.focusable && this.focused
       if (this.pseudoFocused) {
         this.setFocus(this.focus.x, this.focus.y)
       }
@@ -116,7 +120,7 @@ export default class Veditable extends Vue {
 
   onClick (event: MouseEvent) {
     const target = event.target as HTMLElement
-    this.pseudoFocused = target.closest('.veditable') === this.$el
+    this.pseudoFocused = this.focusable && (target.closest('.veditable') === this.$el)
     if (this.pseudoFocused && target.closest('td') === null) {
       this.setFocus(this.focus.x, this.focus.y)
     }
@@ -215,7 +219,7 @@ export default class Veditable extends Vue {
   }
 
   setFocus (x: number, y: number) {
-    if (this.$children[y] && this.$children[y].$children[x]) {
+    if (this.focusable && this.$children[y] && this.$children[y].$children[x]) {
       if (Vue.prototype.$currentCell) {
         Vue.prototype.$currentCell.editing = false
         Vue.prototype.$currentCell.focused = false

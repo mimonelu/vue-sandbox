@@ -172,6 +172,9 @@ export default class VeditableCell extends Vue {
   floating!: boolean
 
   @Prop({ required: true })
+  focusable!: boolean
+
+  @Prop({ required: true })
   isLastRow!: boolean
 
   @Prop({ required: true })
@@ -336,7 +339,7 @@ export default class VeditableCell extends Vue {
 
   // TODO: 要リファクタリング
   canEdit (): boolean {
-    return !this.isDisabled && (!this.extension || this.extension.type === 'select' || this.extension.type === 'list') && this.requiredValueType !== 'array' && this.requiredValueType !== 'boolean'
+    return this.focusable && !this.isDisabled && (!this.extension || this.extension.type === 'select' || this.extension.type === 'list') && this.requiredValueType !== 'array' && this.requiredValueType !== 'boolean'
   }
 
   onChange () {
@@ -351,7 +354,7 @@ export default class VeditableCell extends Vue {
 
   onClick () {
     if (!this.focused) {
-      this.focused = true
+      this.focused = this.focusable
       this.$emit('cellClicked', {
         x: this.columnIndex,
         y: this.rowIndex,
