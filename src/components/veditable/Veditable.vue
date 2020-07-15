@@ -91,13 +91,18 @@ export default class Veditable extends Vue {
   @Prop({ default: false })
   focused!: boolean
 
-  pseudoFocused? = false
+  pseudoFocused = false
 
   lastCellLoaded = false
 
   mounted () {
-    window.addEventListener('click', this.onClick, false)
-    window.addEventListener('keydown', this.onKeyDown, false)
+    window.addEventListener('click', this.onClick, true)
+    window.addEventListener('keydown', this.onKeyDown, true)
+  }
+
+  destroyed () {
+    window.removeEventListener('click', this.onClick, true)
+    window.removeEventListener('keydown', this.onKeyDown, true)
   }
 
   onCellClicked (params: any) {
