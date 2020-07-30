@@ -4,6 +4,7 @@
       :disabled="disabled"
       class="veditable__focusable-target"
       tabindex="-1"
+      type="button"
       @click="click"
     >{{ label }}</button>
   </div>
