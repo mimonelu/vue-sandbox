@@ -321,6 +321,22 @@ export default class Veditable extends Vue {
   forceUpdate () {
     this.$forceUpdate()
   }
+
+  getCellByKeyValue (row: number, key: string, value: any): any {
+    const isHeader = this.numberOfLines || this.headerColumn >= 0
+    for (let i = 0; i < this.bodies[row].length; i ++) {
+      const bodyIndex = i + (isHeader ? 1 : 0)
+      if (this.bodies[row][bodyIndex][key] === value || this.columnRegulations[i][key] === value) {
+        return this.bodies[row][bodyIndex]
+      }
+    }
+    return null
+  }
+
+  getValueByName (row: number, name: string): any {
+    const cell = this.getCellByKeyValue(row, 'name', name)
+    return cell != null ? cell.value : null
+  }
 }
 </script>
 

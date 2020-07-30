@@ -1,8 +1,17 @@
 <template>
   <div class="veditable-view">
-    <veditable v-bind="veditableProps3" />
-    <veditable v-bind="veditableProps1" />
-    <veditable v-bind="veditableProps2" />
+    <veditable
+      v-bind="veditableProps1"
+      ref="veditable1"
+    />
+    <veditable
+      v-bind="veditableProps2"
+      ref="veditable2"
+    />
+    <veditable
+      v-bind="veditableProps3"
+      ref="veditable3"
+    />
     <button @click="change">Change</button>
   </div>
 </template>
@@ -82,21 +91,21 @@ export default class VeditableView extends Vue {
       ],
       bodies: Array(100).fill(0).map(() => this.makeSampleRow()),
       columnRegulations: [
-        { extension: { type: 'button', label: 'Check', callback: this.showData1 } },
-        { type: 'boolean' },
-        { type: 'number', disabled: true, rule: { callback (value: any) { return value <= 50 }, message: '値は50以下でなければなりません' } },
-        { type: 'string', required: true, classes: 'center', rule: { type: 'warn', callback (value: any, params: any) { return !!value.match(params) }, params: /\d/, message: '数字を含んでいません' } },
-        { type: 'string', multiline: true },
-        { type: 'array', suffix: '件' },
-        { type: 'number', filter: this.filterSample, required: true },
-        { extension: { type: 'link', label: 'Open URL', target: '_blank' } },
-        { extension: { type: 'button', label: 'Click me!', callback (params: TVeditableButtonParams) { alert(`${params.cell.value} This cell is (${params.row}, ${params.column}).`) } } },
-        { type: 'number', extension: { type: 'radio', options: [ { label: 'No.1', value: 1 }, { label: 'No.2', value: 2 }, { label: 'No.3', value: 3 } ] } },
-        { type: 'number', extension: { type: 'select', options: [ { label: 'No.1', value: 1 }, { label: 'No.2', value: 2 }, { label: 'No.3', value: 3 } ] } },
-        { type: 'string', extension: { type: 'list', options: [ 'apple', 'bug', 'cupid' ] } },
-        { extension: { type: 'button', label: 'Remove', callback: this.remove } },
-        { extension: { type: 'button', label: 'Add up', callback: this.addUp } },
-        { extension: { type: 'button', label: 'Add down', callback: this.addDown } },
+        { name: 'checkButton', extension: { type: 'button', label: 'Check', callback: this.showData1 } },
+        { name: 'booleanItem', type: 'boolean' },
+        { name: 'numberItem', type: 'number', disabled: true, rule: { callback (value: any) { return value <= 50 }, message: '値は50以下でなければなりません' } },
+        { name: 'stringItem', type: 'string', required: true, classes: 'center', rule: { type: 'warn', callback (value: any, params: any) { return !!value.match(params) }, params: /\d/, message: '数字を含んでいません' } },
+        { name: 'multilineStringItem', type: 'string', multiline: true },
+        { name: 'arrayItem', type: 'array', suffix: '件' },
+        { name: 'filterDemo', type: 'number', filter: this.filterSample, required: true },
+        { name: 'linkExtension', extension: { type: 'link', label: 'Open URL', target: '_blank' } },
+        { name: 'buttonExtension', extension: { type: 'button', label: 'Click me!', callback (params: TVeditableButtonParams) { alert(`${params.cell.value} This cell is (${params.row}, ${params.column}).`) } } },
+        { name: 'radioExtension', type: 'number', extension: { type: 'radio', options: [ { label: 'No.1', value: 1 }, { label: 'No.2', value: 2 }, { label: 'No.3', value: 3 } ] } },
+        { name: 'selectExtension', type: 'number', extension: { type: 'select', options: [ { label: 'No.1', value: 1 }, { label: 'No.2', value: 2 }, { label: 'No.3', value: 3 } ] } },
+        { name: 'listExtension', type: 'string', extension: { type: 'list', options: [ 'apple', 'bug', 'cupid' ] } },
+        { name: 'removeButton', extension: { type: 'button', label: 'Remove', callback: this.remove } },
+        { name: 'addUpButton', extension: { type: 'button', label: 'Add up', callback: this.addUp } },
+        { name: 'addDownButton', extension: { type: 'button', label: 'Add down', callback: this.addDown } },
       ],
       disabled: false,
       headerColumn: 0,
@@ -155,7 +164,7 @@ export default class VeditableView extends Vue {
           { value: '' },
           { value: 0 },
           { value: 'One' },
-        ]
+        ],
       ],
       columnRegulations: [
         { extension: { type: 'button', label: 'Check', callback: this.showData3 } },
@@ -189,6 +198,7 @@ export default class VeditableView extends Vue {
   }
 
   showData1 (params: TVeditableButtonParams) {
+    console.log((this.$refs.veditable1 as Veditable).getValueByName(params.row, 'stringItem'))
     alert(JSON.stringify(this.veditableProps1.bodies[params.row]))
   }
 
@@ -222,14 +232,13 @@ export default class VeditableView extends Vue {
 .veditable-view {
   margin: 1em;
 
-  .veditable:nth-child(1) {
-    width: 50%;
-  }
-
-  .veditable:nth-child(2),
-  .veditable:nth-child(3) {
+  .veditable:nth-child(1),
+  .veditable:nth-child(2) {
     margin: 1em 0;
     height: 320px;
+  }
+  .veditable:nth-child(3) {
+    width: 50%;
   }
 
   .veditable::v-deep {
