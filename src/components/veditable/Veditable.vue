@@ -323,11 +323,10 @@ export default class Veditable extends Vue {
   }
 
   getCellByKeyValue (row: number, key: string, value: any): any {
-    const isHeader = this.numberOfLines || this.headerColumn >= 0
-    for (let i = 0; i < this.bodies[row].length; i ++) {
-      const bodyIndex = i + (isHeader ? 1 : 0)
-      if (this.bodies[row][bodyIndex][key] === value || this.columnRegulations[i][key] === value) {
-        return this.bodies[row][bodyIndex]
+    const offset = this.headerColumn + 1
+    for (let i = 0; i < this.columnRegulations.length; i ++) {
+      if (this.bodies[row][i + offset][key] === value || this.columnRegulations[i][key] === value) {
+        return this.bodies[row][i + offset]
       }
     }
     return null
