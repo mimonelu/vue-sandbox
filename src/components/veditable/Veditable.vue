@@ -18,7 +18,7 @@
             :data-is-floating="'' + (floatingColumns > 0)"
           />
           <th
-            v-for="headerCell, headerCellIndex of headerRow"
+            v-for="headerCell, headerCellIndex of getVisibleHeaders(headerRow)"
             :key="`header__${headerRowIndex}__${headerCellIndex}`"
             v-bind="headerCell.attrs"
             :data-column="numberOfLines ? headerCellIndex + 1 : headerCellIndex"
@@ -103,6 +103,12 @@ export default class Veditable extends Vue {
   destroyed () {
     window.removeEventListener('click', this.onClick, true)
     window.removeEventListener('keydown', this.onKeyDown, true)
+  }
+
+  getVisibleHeaders (headers: any): any {
+    return headers.filter((header: any): boolean => {
+      return header.visible !== false
+    })
   }
 
   onCellClicked (params: any) {

@@ -6,18 +6,18 @@
       :data-is-floating="'' + (floatingColumns > 0)"
     >{{ headerValue }}</th>
     <veditable-cell
-      v-for="cell, columnIndex of columnsWithoutHeader"
+      v-for="cell, columnIndex of visibleColumns"
       :key="columnIndex"
       :data-column="isHeader ? columnIndex + 1 : columnIndex"
-      :cell="columnsWithoutHeader[columnIndex]"
-      :regulation="columnRegulations[columnIndex]"
+      :cell="visibleColumns[columnIndex]"
+      :regulation="visibleColumnRegulations[columnIndex]"
       :row-index="rowIndex"
       :column-index="columnIndex"
       :disabled="disabled"
       :floating="columnIndex < floatingColumns - 1"
       :focusable="focusable"
       :is-last-row="isLastRow"
-      :is-last-column="columnIndex === columnsWithoutHeader.length - 1"
+      :is-last-column="columnIndex === visibleColumns.length - 1"
       @cellClicked="onCellClicked"
       @cellEditing="onCellEditing"
       @lastCellLoaded.once="$emit('lastCellLoaded')"
@@ -70,9 +70,17 @@ export default class VeditableRow extends Vue {
     return this.headerColumn >= 0 ? this.columns[this.headerColumn].value : this.rowIndex + 1
   }
 
-  get columnsWithoutHeader (): any {
+  get visibleColumnRegulations (): any {
+    return this.columnRegulations.filter((regulation: any, index: number): boolean => {
+      return this.columnRegulations[index] == null || this.columnRegulations[index].visible !== false
+    })
+  }
+
+  get visibleColumns (): any {
     return this.columns.filter((column: any, index: number): boolean => {
-      return index !== this.headerColumn
+      const isHeader = index !== this.headerColumn
+      const visible = this.columnRegulations[index] == null || this.columnRegulations[index].visible !== false
+      return isHeader && visible
     })
   }
 
