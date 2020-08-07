@@ -12,6 +12,7 @@
     :data-is-floating="'' + floating"
     :data-is-focused="'' + focused"
     :data-is-editing="'' + editing"
+    :data-is-changed="'' + changed"
     @click="onClick"
     @dblclick="onDoubleClick"
   >
@@ -288,6 +289,11 @@ export default class VeditableCell extends Vue {
       }
     }
     return value
+  }
+
+  get changed (): boolean {
+    const cell = this.cell
+    return cell !== undefined && cell.defaultValue !== undefined && cell.defaultValue !== cell.value
   }
 
   getLabel (cell: any): any {

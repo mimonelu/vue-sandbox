@@ -93,7 +93,7 @@ export default class VeditableView extends Vue {
       columnRegulations: [
         { name: 'checkButton', extension: { type: 'button', label: 'Check', callback: this.showData1 } },
         { name: 'booleanItem', type: 'boolean' },
-        { name: 'numberItem', type: 'number', disabled: true, rule: { callback (value: any) { return value <= 50 }, message: '値は50以下でなければなりません' } },
+        { name: 'numberItem', type: 'number', disabled: true, rule: { callback (value: any) { return value <= 100 }, message: '値は100以下でなければなりません' } },
         { name: 'stringItem', type: 'string', required: true, classes: 'center', rule: { type: 'warn', callback (value: any, params: any) { return !!value.match(params) }, params: /\d/, message: '数字を含んでいません' } },
         { name: 'multilineStringItem', type: 'string', multiline: true },
         { name: 'arrayItem', type: 'array', suffix: '件' },
@@ -192,13 +192,24 @@ export default class VeditableView extends Vue {
       { value: '' },
       { value: '' },
       { value: '' },
-    ]
+    ].map((cell: any) => {
+      cell.defaultValue = cell.value
+      return cell
+    })
     this.serialNumber ++
     return result
   }
 
   showData1 (params: TVeditableButtonParams) {
     console.log((this.$refs.veditable1 as Veditable).getValueByName(params.row, 'stringItem'))
+    // 変更済みのセルを取得
+    ;(this.$refs.veditable1 as Veditable).getChangedCells().forEach((position: any) => {
+      console.info(this.veditableProps1.bodies[position.y][position.x])
+    })
+    // エラーのあるセルを取得
+    ;(this.$refs.veditable1 as Veditable).getErrorCells().forEach((position: any) => {
+      console.error(this.veditableProps1.bodies[position.y][position.x])
+    })
     alert(JSON.stringify(this.veditableProps1.bodies[params.row]))
   }
 

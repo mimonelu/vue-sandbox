@@ -324,6 +324,8 @@ export default class Veditable extends Vue {
     }
   }
 
+  // API 専用
+
   forceUpdate () {
     this.$forceUpdate()
   }
@@ -341,6 +343,41 @@ export default class Veditable extends Vue {
   getValueByName (row: number, name: string): any {
     const cell = this.getCellByKeyValue(row, 'name', name)
     return cell != null ? cell.value : null
+  }
+
+  setDefaultValues (bodies: any) {
+    bodies.forEach((cells: any) => {
+      cells.forEach((cell: any) => {
+        cell.defaultValue = cell.value
+      })
+    })
+  }
+
+  getChangedCells (): any[] {
+    const results: any[] = []
+    this.bodies.forEach((cells: any, y: number) => {
+      cells.forEach((cell: any, x: number) => {
+        if (cell.defaultValue !== undefined && cell.defaultValue !== cell.value) {
+          results.push({ x, y })
+        }
+      })
+    })
+    return results
+  }
+
+  getErrorCells (): any[] {
+    const results: any[] = []
+    const offset = this.headerColumn + 1
+    // WANT: 正確に VeditableRow コンポーネントのみ走査したい
+    this.$children.forEach(($row: any, y: number) => {
+      // WANT: 正確に VeditableCell コンポーネントのみ走査したい
+      $row.$children.forEach(($cell: any, x: number) => {
+        if ((!$cell.isRuled && $cell.ruleType === 'error') || !$cell.isTypeValid || ($cell.isEmpty && $cell.isRequired)) {
+          results.push({ x: x + offset, y })
+        }
+      })
+    })
+    return results
   }
 }
 </script>
