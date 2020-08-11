@@ -293,7 +293,7 @@ export default class VeditableCell extends Vue {
 
   get changed (): boolean {
     const cell = this.cell
-    return cell !== undefined && cell.defaultValue !== undefined && cell.defaultValue !== cell.value
+    return cell !== undefined && cell.defaultValue !== undefined && (Array.isArray(cell.defaultValue) && Array.isArray(cell.value) ? cell.defaultValue.toString() !== cell.value.toString() : cell.defaultValue !== cell.value)
   }
 
   getLabel (cell: any): any {

@@ -345,19 +345,11 @@ export default class Veditable extends Vue {
     return cell != null ? cell.value : null
   }
 
-  setDefaultValues (bodies: any) {
-    bodies.forEach((cells: any) => {
-      cells.forEach((cell: any) => {
-        cell.defaultValue = cell.value
-      })
-    })
-  }
-
   getChangedCells (): any[] {
     const results: any[] = []
     this.bodies.forEach((cells: any, y: number) => {
       cells.forEach((cell: any, x: number) => {
-        if (cell.defaultValue !== undefined && cell.defaultValue !== cell.value) {
+        if (cell.defaultValue !== undefined && (Array.isArray(cell.defaultValue) && Array.isArray(cell.value) ? cell.defaultValue.toString() !== cell.value.toString() : cell.defaultValue !== cell.value)) {
           results.push({ x, y })
         }
       })
